@@ -2,7 +2,8 @@ import React from "react";
 
 function MySignUp() {
   return (
-    <div className="container bg-light mt-5 py-1">
+    <div className="container rounded bg-light mt-5 py-1">
+      <h2>Sign Up</h2>
       <form>
         <div className="form-group py-1">
           <label>User Name</label>
