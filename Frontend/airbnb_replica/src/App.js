@@ -6,12 +6,33 @@ import MyLogIn from './components/MyLogIn';
 import CardGrid from './components/CardGrid';
 import { Route, Routes } from "react-router-dom";
 
+
+const room1 = {
+  Place: "Skiathos Xwra",
+  Type: "Private Room",
+  Beds: "3",
+  Cost: "120",
+  Critic: "3.3",
+  Photo: "https://lagariahotel.gr/wp-content/uploads/2021/07/dasdasdasdwww.jpg"
+};
+
+const room2 = {
+  Place: "Xalkidikh",
+  Type: "Private Room",
+  Beds: "4",
+  Cost: "180",
+  Critic: "4.3",
+  Photo: "https://expertphotography.b-cdn.net/wp-content/uploads/2020/05/hotel-photography-bedroom.jpg"
+};
+
+var hotels = [room1,room2,room2,room1,room1,room2];
+
 function App() {
   return (
     <div className="App">
       <MyNavBar />
       <Routes>
-        <Route path="" element={<><MySearch /> <CardGrid/></>}/>
+        <Route path="" element={<><MySearch /> <CardGrid rooms={hotels}/></>}/>
         <Route path="/SignUp" element={<MySignUp />} />
         <Route path="/LogIn" element={<MyLogIn/>} />
       </Routes>

@@ -1,22 +1,25 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import RoomCard from "./RoomCard";
 
-function CardGrid(params) {
+function CardGrid({rooms}) {
+  const [hotels, setHotels] = useState([]);
+  useEffect(() => {
+    setHotels(rooms)
+  },[]);
+
   return (
     <div class="container-fluid mb-5">
-      <div class="row">
-        <div class="col-sm"><RoomCard/></div>
-        <div class="col-sm"><RoomCard/></div>
-        <div class="col-sm"><RoomCard/></div>
-        <div class="col-sm"><RoomCard/></div>
-        <div class="col-sm"><RoomCard/></div>
-        <div class="col-sm"><RoomCard/></div>
-        <div class="col-sm"><RoomCard/></div>
-        <div class="col-sm"><RoomCard/></div>
-        <div class="col-sm"><RoomCard/></div>
-        <div class="col-sm"><RoomCard/></div>
+        {hotels?.length > 0 ?
+        <div className="row">
+            {hotels.map((hotel) => <div className="col-sm"><RoomCard room={hotel}/></div>)}
+        </div>
+        : (
+          <div>
+            <h2 className="text-center py-5">No Hotels Found!</h2>
+          </div>
+        )}
       </div>
-    </div>
   );
 }
 
