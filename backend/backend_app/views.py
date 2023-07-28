@@ -1,19 +1,32 @@
 from django.shortcuts import render
-from rest_framework import generics
-from .models import CustomUser
-from .serializers import CustomUserSerializer
 from rest_framework.permissions import AllowAny
+from rest_framework import generics
+from .models import Property, Reservation, CustomUser
+from .serializers import PropertySerializer, ReservationSerializer, CustomUserSerializer
 
-class UserListAPIView(generics.ListCreateAPIView):
+class PropertyListCreateView(generics.ListCreateAPIView):
+    queryset = Property.objects.all()
+    serializer_class = PropertySerializer
+
+class PropertyDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Property.objects.all()
+    serializer_class = PropertySerializer
+
+class ReservationListCreateView(generics.ListCreateAPIView):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+
+class ReservationDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+
+class CustomUserCreateView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
-class UserDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+class CustomUserDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
-class UserCreateAPIView(generics.CreateAPIView):
-    serializer_class = CustomUserSerializer
-    permission_classes = (AllowAny,)
 
 

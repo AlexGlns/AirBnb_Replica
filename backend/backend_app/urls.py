@@ -17,6 +17,10 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('user/<int:pk>/', UserDetailAPIView.as_view(), name='user-detail'),
-    path('user/create/', UserCreateAPIView.as_view(), name='user-create'),
+    path('user/create/', CustomUserCreateView.as_view(), name='user-create'),
+    path('properties/', PropertyListCreateView.as_view(), name='property-list'),
+    path('properties/<int:pk>/', PropertyDetailView.as_view(), name='property-detail'),
+    path('reservations/', ReservationListCreateView.as_view(), name='reservation-list'),
+    path('reservations/<int:pk>/', ReservationDetailView.as_view(), name='reservation-detail'),
+    
 ]
