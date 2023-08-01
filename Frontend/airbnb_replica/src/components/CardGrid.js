@@ -3,16 +3,12 @@ import { useState, useEffect } from "react";
 import RoomCard from "./RoomCard";
 
 function CardGrid({rooms}) {
-  const [hotels, setHotels] = useState([]);
-  useEffect(() => {
-    setHotels(rooms)
-  },[]);
 
   return (
     <div class="container-fluid mb-5">
-        {hotels?.length > 0 ?
+        {rooms?.length > 0 ?
         <div className="row">
-            {hotels.map((hotel) => <div className="col-sm"><RoomCard room={hotel}/></div>)}
+            {rooms.map((room) => <div className="col-sm"><RoomCard room={room}/></div>)}
         </div>
         : (
           <div>

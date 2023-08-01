@@ -4,6 +4,7 @@ import MySearch from './components/MySearch';
 import MySignUp from './components/MySignUp';
 import MyLogIn from './components/MyLogIn';
 import CardGrid from './components/CardGrid';
+import UsePagination from './components/UsePagination';
 import { Route, Routes } from "react-router-dom";
 
 
@@ -25,14 +26,14 @@ const room2 = {
   Photo: "https://expertphotography.b-cdn.net/wp-content/uploads/2020/05/hotel-photography-bedroom.jpg"
 };
 
-var hotels = [room1,room2,room2,room1,room1,room2];
+var hotels = [room1,room2,room2,room1,room1,room2,room1,room2,room2,room1,room1,room2,room1,room2,room2,room1,room1,room2,room1,room2,room2,room1,room1,room2,room1,room2,room2,room1,room1,room2,room1];
 
 function App() {
   return (
     <div className="App">
       <MyNavBar />
       <Routes>
-        <Route path="" element={<><MySearch /> <CardGrid rooms={hotels}/></>}/>
+        <Route path="" element={<><MySearch /> <UsePagination records={hotels}/></>}/>
         <Route path="/SignUp" element={<MySignUp />} />
         <Route path="/LogIn" element={<MyLogIn/>} />
       </Routes>
