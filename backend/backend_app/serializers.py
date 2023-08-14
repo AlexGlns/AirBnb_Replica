@@ -4,14 +4,11 @@ from .models import Property, Reservation, CustomUser
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'email', 'user_type', 'password']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'user_type', 'password']
         extra_kwargs = {'password': {'write_only': True}}
 
     def create(self, validated_data):
-        password = validated_data.pop('password')
-        user = CustomUser(**validated_data)
-        user.set_password(password)
-        user.save()
+        user = CustomUser.objects.create_user(**validated_data)
         return user
 
 

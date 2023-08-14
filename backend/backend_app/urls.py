@@ -23,6 +23,6 @@ urlpatterns = [
     path('reservations/', ReservationListCreateView.as_view(), name='reservation-list'),
     path('reservations/<int:pk>/', ReservationDetailView.as_view(), name='reservation-detail'),
     # get functions for info
-    path('reservations/<int:reservation_id>/info/', views.get_reservation_info, name='reservation-info'),
-    path('properties/<int:property_id>/info/', views.get_property_info, name='property-info'),
+    path('reservations/<int:reservation_id>/info/', get_reservation_info, name='reservation-info'),
+    path('properties/<int:property_id>/info/', get_property_info, name='property-info'),
 ]

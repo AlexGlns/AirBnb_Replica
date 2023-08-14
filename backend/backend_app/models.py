@@ -35,6 +35,8 @@ class CustomUser(AbstractUser):
         ('anonymous', 'Anonymous'),
     )
     
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='renter')
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='anonymous')
     # Add other user attributes as needed
 
+    def __str__(self):
+        return self.username
