@@ -13,6 +13,9 @@ class Property(models.Model):
     available_to = models.DateField()
     # Add other property attributes as needed
 
+    def __str__(self):
+        return self.location
+
 class Reservation(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
     renter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -21,6 +24,8 @@ class Reservation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     # Add other reservation attributes as needed
 
+    def __str__(self):
+        return f"Reservation for {self.property} by {self.renter}"
 
 class CustomUser(AbstractUser):
     ROLE_CHOICES = (

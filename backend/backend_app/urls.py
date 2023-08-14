@@ -22,5 +22,7 @@ urlpatterns = [
     path('properties/<int:pk>/', PropertyDetailView.as_view(), name='property-detail'),
     path('reservations/', ReservationListCreateView.as_view(), name='reservation-list'),
     path('reservations/<int:pk>/', ReservationDetailView.as_view(), name='reservation-detail'),
-    
+    # properties/<location>
+    # properties/<location>/available
+    # 
 ]
