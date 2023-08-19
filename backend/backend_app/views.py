@@ -4,6 +4,8 @@ from rest_framework import generics
 from .models import Property, Reservation, CustomUser
 from .serializers import PropertySerializer, ReservationSerializer, CustomUserSerializer
 
+#### Properties ####
+
 class PropertyListCreateView(generics.ListCreateAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
@@ -11,6 +13,8 @@ class PropertyListCreateView(generics.ListCreateAPIView):
 class PropertyDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
+
+#### Reservations ####
 
 class ReservationListCreateView(generics.ListCreateAPIView):
     queryset = Reservation.objects.all()
@@ -20,13 +24,15 @@ class ReservationDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
 
+#### Users ####
 class CustomUserCreateView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
-class CustomUserDetailView(generics.RetrieveUpdateDestroyAPIView):
+class UserDetailsView(generics.RetrieveAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
+    lookup_field = 'id'
 
 
 #==================================================

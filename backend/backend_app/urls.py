@@ -19,6 +19,8 @@ from .views import *
 urlpatterns = [
     # creates user
     path('users/create/', CustomUserCreateView.as_view(), name='user-create'),
+    # users info based on id
+    path('users/<int:id>/', UserDetailsView.as_view(), name='user-details'),
     # creates property --needs already created user
     path('properties/create/', PropertyListCreateView.as_view(), name='property-list'),
     # returns info on property with certain id
