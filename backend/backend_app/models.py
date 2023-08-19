@@ -28,15 +28,16 @@ class Reservation(models.Model):
         return f"Reservation for {self.property} by {self.renter}"
 
 class CustomUser(AbstractUser):
-    ROLE_CHOICES = (
+    USER_TYPE_CHOICES = (
         ('admin', 'Admin'),
         ('host', 'Host'),
         ('renter', 'Renter'),
         ('anonymous', 'Anonymous'),
     )
     
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='anonymous')
-    # Add other user attributes as needed
-
+    user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, default='renter')
+    # Other fields as needed
+    
     def __str__(self):
         return self.username
+

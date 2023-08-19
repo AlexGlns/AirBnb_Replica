@@ -17,12 +17,12 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('user/create/', CustomUserCreateView.as_view(), name='user-create'),
-    path('properties/', PropertyListCreateView.as_view(), name='property-list'),
+    path('users/create/', CustomUserCreateView.as_view(), name='user-create'),
+    path('properties/create/', PropertyListCreateView.as_view(), name='property-list'),
     path('properties/<int:pk>/', PropertyDetailView.as_view(), name='property-detail'),
-    path('reservations/', ReservationListCreateView.as_view(), name='reservation-list'),
+    path('reservations/create/', ReservationListCreateView.as_view(), name='reservation-list'),
     path('reservations/<int:pk>/', ReservationDetailView.as_view(), name='reservation-detail'),
-    # get functions for info
+    # get functions for info in json format
     path('reservations/<int:reservation_id>/info/', get_reservation_info, name='reservation-info'),
     path('properties/<int:property_id>/info/', get_property_info, name='property-info'),
 ]
