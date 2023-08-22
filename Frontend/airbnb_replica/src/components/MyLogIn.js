@@ -15,10 +15,10 @@ function MyLogIn() {
         </div>
 
 
-        <div class="d-flex flex-row align-items-center mb-2">
-          <i class="fas fa-lock fa-lg fa-fw"></i>
-          <div class="form-outline flex-fill mb-0">
-            <label class="form-label" for="form3Example4c">
+        <div className="d-flex flex-row align-items-center mb-2">
+          <i className="fas fa-lock fa-lg fa-fw"></i>
+          <div className="form-outline flex-fill mb-0">
+            <label className="form-label" htmlFor="form3Example4c">
               Password
             </label>
             <input type="password" id="form3Example4c" class="form-control" />

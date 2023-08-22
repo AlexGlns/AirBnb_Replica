@@ -18,7 +18,7 @@ function MyNavBar(props) {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"></span>
         </button>
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
@@ -28,13 +28,13 @@ function MyNavBar(props) {
                 Home
               </Link>
             </li>
-            <li class="nav-item">
-              <Link class="nav-link" to="/SignUp">
+            <li className="nav-item">
+              <Link className="nav-link" to="/SignUp">
                 Sign Up
               </Link>
             </li>
-            <li class="nav-item">
-              <Link class="nav-link" to="/LogIn">
+            <li className="nav-item">
+              <Link className="nav-link" to="/LogIn">
                 Log In
               </Link>
             </li>

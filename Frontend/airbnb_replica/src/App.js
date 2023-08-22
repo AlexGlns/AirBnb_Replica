@@ -3,7 +3,6 @@ import MyNavBar from './components/MyNavBar';
 import MySearch from './components/MySearch';
 import MySignUp from './components/MySignUp';
 import MyLogIn from './components/MyLogIn';
-import CardGrid from './components/CardGrid';
 import UsePagination from './components/UsePagination';
 import { Route, Routes } from "react-router-dom";
 

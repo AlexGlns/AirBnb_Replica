@@ -1,6 +1,47 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import CreateUser from "../server/Api_Calls";
 
 function MySignUp() {
+  //const url = "http://127.0.0.1:8000/api/users/create/";
+  const [userInfo, setUserInfo] = useState({
+    username: "",
+    first_name: "",
+    last_name: "",
+    email: "",
+    //phoneNumber: "",
+    userType: "Renter",
+    password: "",
+  });
+
+  // function submit(e){
+  //   e.preventDefault();
+  //   {Axios.post(url, {
+  //     username: userInfo.username,
+  //     first_name: userInfo.first_name,
+  //     last_name: userInfo.last_name,
+  //     email: userInfo.email,
+  //     //phoneNumber: userInfo.phoneNumber,
+  //     password: userInfo.password,
+  //   })
+  //   .then(res=>{
+  //     setUserInfo(res.data);
+  //     console.log(res.userInfo);
+  //   })
+  //   .catch(error => {
+  //     console.error(error);
+  //   })
+  // };
+  // }
+
+  function handleData(e) {
+    const newdata = { ...userInfo };
+    newdata[e.target.id] = e.target.value;
+    setUserInfo(newdata);
+    //console.log(newdata);
+  }
+
   return (
     <div className="container rounded bg-light mt-5 py-1">
       <h2>Sign Up</h2>
@@ -10,34 +51,40 @@ function MySignUp() {
           <input
             type="text"
             className="form-control"
-            id="exampleFormControlInput1"
+            onChange={(e) => handleData(e)}
+            id="username"
+            value={userInfo.username}
           />
         </div>
 
-        <div class="row">
-          <div class="col-md-6 mb-1 py-1">
-            <div class="form-outline">
-              <label class="form-label" for="form3Examplev2">
+        <div className="row">
+          <div className="col-md-6 mb-1 py-1">
+            <div className="form-outline">
+              <label className="form-label" htmlFor="form3Examplev2">
                 First name
               </label>
 
               <input
                 type="text"
-                id="form3Examplev2"
-                class="form-control form-control-lg"
+                onChange={(e) => handleData(e)}
+                id="first_name"
+                value={userInfo.first_name}
+                className="form-control form-control-lg"
               />
             </div>
           </div>
-          <div class="col-md-6 mb-1 py-1">
-            <div class="form-outline">
-              <label class="form-label" for="form3Examplev3">
+          <div className="col-md-6 mb-1 py-1">
+            <div className="form-outline">
+              <label className="form-label" htmlFor="form3Examplev3">
                 Last name
               </label>
 
               <input
                 type="text"
-                id="form3Examplev3"
-                class="form-control form-control-lg"
+                onChange={(e) => handleData(e)}
+                id="last_name"
+                value={userInfo.last_name}
+                className="form-control form-control-lg"
               />
             </div>
           </div>
@@ -47,64 +94,87 @@ function MySignUp() {
           <input
             type="email"
             className="form-control"
-            id="exampleFormControlInput1"
+            onChange={(e) => handleData(e)}
+            id="email"
+            value={userInfo.email}
             placeholder="name@example.com"
           />
         </div>
 
-        <div class="form-froup py-2">
-          <label class="form-label" for="phoneNumber">
+        <div className="form-froup py-2">
+          <label className="form-label" htmlFor="phoneNumber">
             Phone Number
           </label>
-          <input type="tel" id="phoneNumber" class="form-control" />
+          <input
+            type="tel"
+            // onChange={(e) => handleData(e)}
+            id="phoneNumber"
+            //value={userInfo.phoneNumber}
+            className="form-control"
+          />
         </div>
 
-        <div class="form-check form-check-inline py-1">
+        <div className="form-check form-check-inline py-1">
           <input
-            class="form-check-input"
+            className="form-check-input"
             type="checkbox"
             id="inlineCheckbox1"
             value="option1"
           />
-          <label class="form-check-label" for="inlineCheckbox1">
+          <label className="form-check-label" htmlFor="inlineCheckbox1">
             Οικοδεσπότης
           </label>
         </div>
-        <div class="form-check form-check-inline">
+        <div className="form-check form-check-inline">
           <input
-            class="form-check-input"
+            className="form-check-input"
             type="checkbox"
             id="inlineCheckbox2"
             value="option2"
           />
-          <label class="form-check-label" for="inlineCheckbox2">
+          <label className="form-check-label" htmlFor="inlineCheckbox2">
             Ενοικιαστής
           </label>
         </div>
 
-        <div class="d-flex flex-row align-items-center mb-2">
-          <i class="fas fa-lock fa-lg fa-fw"></i>
-          <div class="form-outline flex-fill mb-0">
-          <label class="form-label" for="form3Example4c">
+        <div className="d-flex flex-row align-items-center mb-2">
+          <i className="fas fa-lock fa-lg fa-fw"></i>
+          <div className="form-outline flex-fill mb-0">
+            <label className="form-label" htmlFor="form3Example4c">
               Password
             </label>
-            <input type="password" id="form3Example4c" class="form-control" />
-
+            <input
+              type="password"
+              onChange={(e) => handleData(e)}
+              id="password"
+              value={userInfo.password}
+              className="form-control"
+            />
           </div>
         </div>
 
-        <div class="d-flex flex-row align-items-center mb-2">
-          <i class="fas fa-key fa-lg fa-fw"></i>
-          <div class="form-outline flex-fill mb-0">
-          <label class="form-label" for="form3Example4cd">
+        <div className="d-flex flex-row align-items-center mb-2">
+          <i className="fas fa-key fa-lg fa-fw"></i>
+          <div className="form-outline flex-fill mb-0">
+            <label className="form-label" htmlFor="form3Example4cd">
               Repeat your password
             </label>
-            <input type="password" id="form3Example4cd" class="form-control" />
-
+            <input type="password" id="form3Example4cd" className="form-control" />
           </div>
         </div>
 
-        <button type="submit" className="btn btn-primary m-2">
+        <button
+          type="submit"
+          onClick={async () => {
+            console.log(userInfo);
+            await axios
+              .post(`http://127.0.0.1:8000/api/users/create/`, userInfo )
+              .then((response) => {
+                console.log(response.status, response.data);
+              });
+          }}
+          className="btn btn-primary m-2"
+        >
           Sign Up
         </button>
       </form>
