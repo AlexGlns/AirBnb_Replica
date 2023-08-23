@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import userLogo from './black-male-user-symbol.png'
+import userLogo from '../icons/black-male-user-symbol.png'
 
 function MyNavBar(props) {
   return (

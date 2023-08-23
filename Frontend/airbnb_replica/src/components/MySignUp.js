@@ -15,6 +15,14 @@ function MySignUp() {
     password: "",
   });
 
+  const [response, setResponse] = useState("");
+
+  const handleSubmit = (event) => {
+    console.log("handleSubmit ran");
+    event.preventDefault();
+  };
+  const [repeatPass, setRepeatPass] = useState("");
+
   // function submit(e){
   //   e.preventDefault();
   //   {Axios.post(url, {
@@ -45,7 +53,7 @@ function MySignUp() {
   return (
     <div className="container rounded bg-light mt-5 py-1">
       <h2>Sign Up</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="form-group py-1">
           <label>User Name</label>
           <input
@@ -159,27 +167,81 @@ function MySignUp() {
             <label className="form-label" htmlFor="form3Example4cd">
               Repeat your password
             </label>
-            <input type="password" id="form3Example4cd" className="form-control" />
+            <input
+              type="password"
+              id="repeatPass"
+              onChange={(e) => setRepeatPass(e.target.value)}
+              value={repeatPass}
+              className="form-control"
+            />
           </div>
         </div>
 
         <button
           type="submit"
+          id="signUpButton"
+          disabled={isDesabled(userInfo, repeatPass)}
           onClick={async () => {
-            console.log(userInfo);
-            await axios
-              .post(`http://127.0.0.1:8000/api/users/create/`, userInfo )
-              .then((response) => {
-                console.log(response.status, response.data);
-              });
+            console.log(repeatPass);
+            try {
+              await axios
+                .post(`http://127.0.0.1:8000/api/users/create/`, userInfo)
+                .then((res) => {
+                  console.log(res.status, res.data);
+                  setResponse(res);
+                })
+                .catch((error) => {
+                  setResponse(400);
+                  console.log(error);
+                });
+            } catch (e) {
+              setResponse(400);
+              console.log(e);
+            }
           }}
           className="btn btn-primary m-2"
         >
           Sign Up
         </button>
+        {userInfo.password !== repeatPass && (
+          <h5 className="text-danger">Confirmation password does not match.</h5>
+        )}
+        {statusMessages(response)}
       </form>
     </div>
   );
+}
+
+function isDesabled(userInfo, pass2) {
+  if (
+    userInfo.username === "" ||
+    userInfo.first_name === "" ||
+    userInfo.last_name === "" ||
+    userInfo.email === "" ||
+    userInfo.password === ""
+  ) {
+    return true;
+  }
+
+  if (userInfo.password !== pass2) {
+    return true;
+  }
+  return false;
+}
+
+function statusMessages(status) {
+  if (status===""){
+    return;
+  }
+  if (status >= 400) {
+    return (
+      <h5 className="text-danger">
+        Error Creating User: Try another username or email
+      </h5>
+    );
+  } else {
+    return <h5 className="text-success">User Successfully signed up.</h5>;
+  }
 }
 
 export default MySignUp;
