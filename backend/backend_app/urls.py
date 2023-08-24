@@ -32,4 +32,9 @@ urlpatterns = [
     # get functions for info in json format
     path('reservations/<int:reservation_id>/info/', get_reservation_info, name='reservation-info'),
     path('properties/<int:property_id>/info/', get_property_info, name='property-info'),
+    # admin only - get all users and their info
+    path('users/all/', AllUsersView.as_view(), name='all-users'),
+    # basic info request - before click on room
+
+    # extensive info - after click on room
 ]

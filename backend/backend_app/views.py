@@ -34,6 +34,10 @@ class UserDetailsView(generics.RetrieveAPIView):
     serializer_class = CustomUserSerializer
     lookup_field = 'id'
 
+# Admin property -> get all users and their info
+class AllUsersView(generics.ListAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
 
 #==================================================
 
