@@ -32,12 +32,13 @@ class CustomUser(AbstractUser):
         ('admin', 'Admin'),
         ('host', 'Host'),
         ('renter', 'Renter'),
-        ('anonymous', 'Anonymous'),
+        #('anonymous', 'Anonymous'),
     )
     
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, default='renter')
     phone_number = models.IntegerField(max_length=20)
-    
+    # fix --add all pedia
+
     def __str__(self):
         return self.username
 
