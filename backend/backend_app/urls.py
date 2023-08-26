@@ -37,4 +37,7 @@ urlpatterns = [
     # basic info request - before click on room
 
     # extensive info - after click on room
+
+    # get all rooms in certain location
+    path('rooms-in-location/<str:location>/', RoomsInLocationView.as_view(), name='rooms-in-location'),
 ]

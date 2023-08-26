@@ -3,6 +3,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework import generics
 from .models import Property, Reservation, CustomUser
 from .serializers import PropertySerializer, ReservationSerializer, CustomUserSerializer
+from rest_framework.response import Response
 
 #### Properties ####
 
@@ -38,6 +39,24 @@ class UserDetailsView(generics.RetrieveAPIView):
 class AllUsersView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
+
+# get all rooms in certain location
+class RoomsInLocationView(generics.ListAPIView):
+    serializer_class = PropertySerializer
+    
+    def get_queryset(self):
+        location = self.kwargs['location']
+        queryset = Property.objects.filter(location__icontains=location)
+        return queryset
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        response_data = {
+            'message': f'Results for rooms in {self.kwargs["location"]}',
+            'results': serializer.data
+        }
+        return Response(response_data)
 
 #==================================================
 
