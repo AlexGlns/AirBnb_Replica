@@ -40,9 +40,9 @@ urlpatterns = [
 
     #====================== SEARCH =========================
     # get all rooms in certain location
-    path('room-search/<str:location>/', RoomsInLocationView.as_view(), name='rooms-in-location'),
+    path('room-search/<str:location>/', RoomsLocationView.as_view(), name='rooms-in-location'),
     # get all rooms in certain location with date range
-    path('room-search/<str:location>/<str:start_date>/<str:end_date>/', RoomSearchView.as_view(), name='rooms-in-location-date'),
+    path('room-search/<str:location>/<str:start_date>/<str:end_date>/', RoomLocationDateView.as_view(), name='rooms-in-location-date'),
     # get all rooms in certain location with date range and people limit
-    path('room-search/<str:location>/<str:start_date>/<str:end_date>/<int:bed_number>/', RoomSearchView.as_view(), name='rooms-in-location-date-people'),
+    path('room-search/<str:location>/<str:start_date>/<str:end_date>/<int:bed_number>/', RoomLocationDateBedsView.as_view(), name='rooms-in-location-date-people'),
 ]

@@ -46,12 +46,12 @@ class AllUsersView(generics.ListAPIView):
 #=========================== SEARCH =============================
 
 # get all rooms in certain location
-class RoomsInLocationView(generics.ListAPIView):
+class RoomsLocationView(generics.ListAPIView):
     serializer_class = PropertySerializer
     
     def get_queryset(self):
         location = self.kwargs['location']
-        queryset = Property.objects.filter(location__icontains=location)
+        queryset = Property.objects.filter(location__icontains=location).order_by('-price')
         return queryset
     
     def list(self, request, *args, **kwargs):
@@ -64,7 +64,7 @@ class RoomsInLocationView(generics.ListAPIView):
         return Response(response_data)
 
 # get all rooms in certain location available in the date range
-class RoomSearchView(generics.ListAPIView):
+class RoomLocationDateView(generics.ListAPIView):
     serializer_class = PropertySerializer
 
     def get_queryset(self):
@@ -76,7 +76,7 @@ class RoomSearchView(generics.ListAPIView):
             location__icontains=location,
             available_from__lte=end_date,
             available_to__gte=start_date
-        )
+        ).order_by('-price')
 
         return queryset
 
@@ -89,7 +89,7 @@ class RoomSearchView(generics.ListAPIView):
         }
         return Response(response_data)
 
-class RoomSearchView(generics.ListAPIView):
+class RoomLocationDateBedsView(generics.ListAPIView):
     serializer_class = PropertySerializer
     
     def get_queryset(self):
@@ -103,7 +103,7 @@ class RoomSearchView(generics.ListAPIView):
             available_from__lte=end_date,
             available_to__gte=start_date,
             bed_number__gte=bed_number
-        )
+        ).order_by('-price')
         
         return queryset
     
