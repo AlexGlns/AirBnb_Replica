@@ -23,6 +23,7 @@ class Property(models.Model):
     bed_number = models.IntegerField(default=1)
     bathroom_number = models.IntegerField(default=1)
     living_room = models.CharField(max_length=20,choices=BOOLEAN_CHOICES, default="No")
+    bed_number = models.IntegerField(default=1)
 
     # open text
     description = models.CharField(max_length=1000, default="-")
@@ -34,8 +35,8 @@ class Property(models.Model):
     min_number_reservation = models.IntegerField(default=1)
 
     #coordinates to give to openstreetmap --might have to change to decimal field
-    lat = models.IntegerField(default=0)
-    lng = models.IntegerField(default=0)
+    lat = models.DecimalField(max_digits=18, decimal_places=5)
+    lng = models.DecimalField(max_digits=18, decimal_places=5)
 
     #photos, owner info
     

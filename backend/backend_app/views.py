@@ -4,6 +4,9 @@ from rest_framework import generics
 from .models import Property, Reservation, CustomUser
 from .serializers import PropertySerializer, ReservationSerializer, CustomUserSerializer
 from rest_framework.response import Response
+from datetime import datetime
+from django.http import JsonResponse
+
 
 #### Properties ####
 
@@ -40,6 +43,8 @@ class AllUsersView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
+#=========================== SEARCH =============================
+
 # get all rooms in certain location
 class RoomsInLocationView(generics.ListAPIView):
     serializer_class = PropertySerializer
@@ -58,37 +63,85 @@ class RoomsInLocationView(generics.ListAPIView):
         }
         return Response(response_data)
 
+# get all rooms in certain location available in the date range
+class RoomSearchView(generics.ListAPIView):
+    serializer_class = PropertySerializer
+
+    def get_queryset(self):
+        location = self.kwargs['location']
+        start_date = datetime.strptime(self.kwargs['start_date'], '%Y-%m-%d')
+        end_date = datetime.strptime(self.kwargs['end_date'], '%Y-%m-%d')
+
+        queryset = Property.objects.filter(
+            location__icontains=location,
+            available_from__lte=end_date,
+            available_to__gte=start_date
+        )
+
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        response_data = {
+            'message': f'Results for rooms in {self.kwargs["location"]} from {self.kwargs["start_date"]} to {self.kwargs["end_date"]}',
+            'results': serializer.data
+        }
+        return Response(response_data)
+
+class RoomSearchView(generics.ListAPIView):
+    serializer_class = PropertySerializer
+    
+    def get_queryset(self):
+        location = self.kwargs['location']
+        start_date = datetime.strptime(self.kwargs['start_date'], '%Y-%m-%d')
+        end_date = datetime.strptime(self.kwargs['end_date'], '%Y-%m-%d')
+        bed_number = self.kwargs['bed_number']
+        
+        queryset = Property.objects.filter(
+            location__icontains=location,
+            available_from__lte=end_date,
+            available_to__gte=start_date,
+            bed_number__gte=bed_number
+        )
+        
+        return queryset
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        response_data = {
+            'message': f'Results for rooms in {self.kwargs["location"]} from {self.kwargs["start_date"]} to {self.kwargs["end_date"]} for {self.kwargs["bed_number"]} people',
+            'results': serializer.data
+        }
+        return Response(response_data)
+
+#============================================================================
+
 #==================================================
 
 # reservation info json
-def get_reservation_info(request, reservation_id):
-    try:
-        reservation = Reservation.objects.select_related('property', 'renter').get(id=reservation_id)
-        reservation_data = serializers.serialize('json', [reservation], use_natural_primary_keys=True)
-        
-        return JsonResponse(reservation_data, safe=False)
-        
-    except Reservation.DoesNotExist:
-        return JsonResponse({'error': 'Reservation not found'}, status=404)
+class ReservationInfo(generics.ListAPIView):
+    serializer_class = ReservationSerializer
+    
+    def get_queryset(self):
+        queryset = Reservation.objects.all()
+        return queryset
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 # property info json
-def get_property_info(request, property_id):
-    try:
-        property_obj = Property.objects.get(id=property_id)
-        
-        property_info = {
-            'id': property_obj.id,
-            'location': property_obj.location,
-            'size': property_obj.size,
-            'floor': property_obj.floor,
-            'heating': property_obj.heating,
-            'price': property_obj.price,
-            'available_from': property_obj.available_from,
-            'available_to': property_obj.available_to,
-            # Add other property attributes as needed
-        }
-        
-        return JsonResponse(property_info)
-        
-    except Property.DoesNotExist:
-        return JsonResponse({'error': 'Property not found'}, status=404)
+class PropertyExtensiveInfo(generics.ListAPIView):
+    serializer_class = PropertySerializer
+    
+    def get_queryset(self):
+        queryset = Property.objects.all()
+        return queryset
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
