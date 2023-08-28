@@ -30,6 +30,19 @@ urlpatterns = [
     # returns info on reservation with certain id 
     path('reservations/<int:pk>/', ReservationDetailView.as_view(), name='reservation-detail'),
     # get functions for info in json format
-    path('reservations/<int:reservation_id>/info/', get_reservation_info, name='reservation-info'),
-    path('properties/<int:property_id>/info/', get_property_info, name='property-info'),
+    path('reservations/<int:reservation_id>/info/', ReservationInfo.as_view(), name='reservation-info'),
+    path('properties/<int:property_id>/info/', PropertyExtensiveInfo.as_view(), name='property-info'),
+    # admin only - get all users and their info
+    path('users/all/', AllUsersView.as_view(), name='all-users'),
+    # basic info request - before click on room
+
+    # extensive info - after click on room
+
+    #====================== SEARCH =========================
+    # get all rooms in certain location
+    path('room-search/<str:location>/', RoomsLocationView.as_view(), name='rooms-in-location'),
+    # get all rooms in certain location with date range
+    path('room-search/<str:location>/<str:start_date>/<str:end_date>/', RoomLocationDateView.as_view(), name='rooms-in-location-date'),
+    # get all rooms in certain location with date range and people limit
+    path('room-search/<str:location>/<str:start_date>/<str:end_date>/<int:bed_number>/', RoomLocationDateBedsView.as_view(), name='rooms-in-location-date-people'),
 ]
