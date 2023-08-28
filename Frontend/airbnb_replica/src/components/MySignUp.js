@@ -1,7 +1,6 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
-import CreateUser from "../server/Api_Calls";
 
 function MySignUp() {
   //const url = "http://127.0.0.1:8000/api/users/create/";
