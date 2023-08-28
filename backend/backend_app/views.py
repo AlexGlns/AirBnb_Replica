@@ -2,13 +2,13 @@ from django.shortcuts import render
 from rest_framework.permissions import AllowAny
 from rest_framework import generics
 from .models import Property, Reservation, CustomUser
-from .serializers import PropertySerializer, ReservationSerializer, CustomUserSerializer
+from .serializers import PropertySerializer, ReservationSerializer, CustomUserSerializer, PropertyShortInfoSerializer
 from rest_framework.response import Response
 from datetime import datetime
 from django.http import JsonResponse
 
 
-#### Properties ####
+#======================= Properties ==============================
 
 class PropertyListCreateView(generics.ListCreateAPIView):
     queryset = Property.objects.all()
@@ -18,7 +18,26 @@ class PropertyDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
 
-#### Reservations ####
+class PropertyShortInfo(generics.RetrieveAPIView):
+    serializer_class = PropertyShortInfoSerializer
+    queryset = Property.objects.all()
+    lookup_field = 'id'
+
+# property info json
+class PropertyExtensiveInfo(generics.ListAPIView):
+    serializer_class = PropertySerializer
+    
+    def get_queryset(self):
+        queryset = Property.objects.all()
+        lookup_field = 'id'
+        return queryset
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+#========================== Reservations ===========================
 
 class ReservationListCreateView(generics.ListCreateAPIView):
     queryset = Reservation.objects.all()
@@ -28,7 +47,20 @@ class ReservationDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
 
-#### Users ####
+# reservation info json
+class ReservationInfo(generics.ListAPIView):
+    serializer_class = ReservationSerializer
+    
+    def get_queryset(self):
+        queryset = Reservation.objects.all()
+        return queryset
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+#========================== Users ==============================
 class CustomUserCreateView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
@@ -118,30 +150,3 @@ class RoomLocationDateBedsView(generics.ListAPIView):
 
 #============================================================================
 
-#==================================================
-
-# reservation info json
-class ReservationInfo(generics.ListAPIView):
-    serializer_class = ReservationSerializer
-    
-    def get_queryset(self):
-        queryset = Reservation.objects.all()
-        return queryset
-    
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
-
-# property info json
-class PropertyExtensiveInfo(generics.ListAPIView):
-    serializer_class = PropertySerializer
-    
-    def get_queryset(self):
-        queryset = Property.objects.all()
-        return queryset
-    
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
