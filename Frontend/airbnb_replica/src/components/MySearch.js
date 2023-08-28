@@ -8,7 +8,7 @@ function MySearch() {
     destination: "",
     departure_date: "",
     return_date: "",
-    persons_number: 0,
+    persons_number: "",
   });
 
   function handleData(e) {
@@ -30,7 +30,7 @@ function MySearch() {
           value={searchTerms.destination}
           placeholder="Type Destination"
         />
-        <label htmlFor="inputDate1">Select Date Departure: </label>
+        <label htmlFor="inputDate1" className="m-2">Select Date Departure :</label>
         <input
           type="date"
           onChange={(e) => handleData(e)}
@@ -39,7 +39,7 @@ function MySearch() {
         ></input>
 
         <label htmlFor="inputDate2" className="m-2">
-          Select Return Date :{" "}
+          Select Return Date :
         </label>
         <input
           type="date"
@@ -101,7 +101,7 @@ function createUrl(searchTerms) {
     url = url + searchTerms.return_date + "/";
   }
 
-  if (searchTerms.persons_number !== 0) {
+  if (searchTerms.persons_number !== "") {
     url = url + searchTerms.persons_number + "/";
   }
   console.log(url);
