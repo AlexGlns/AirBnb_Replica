@@ -17,26 +17,31 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
+    #====================== USERS ========================
     # creates user
     path('users/create/', CustomUserCreateView.as_view(), name='user-create'),
     # users info based on id
     path('users/<int:id>/', UserDetailsView.as_view(), name='user-details'),
+    # admin only - get all users and their info
+    path('users/all/', AllUsersView.as_view(), name='all-users'),
+
+    #====================== PROPERTIES ======================
     # creates property --needs already created user
     path('properties/create/', PropertyListCreateView.as_view(), name='property-list'),
     # returns info on property with certain id
     path('properties/<int:pk>/', PropertyDetailView.as_view(), name='property-detail'),
+    # get extensive info for a property
+    path('properties/<int:property_id>/ext-info/', PropertyExtensiveInfo.as_view(), name='property-ext-info'),
+    # get basic info for a property
+    path('property/<int:property_id>/short-info/', PropertyShortInfo.as_view(), name='property-short-info'),
+
+    #===================== RESERVATIONS ===================== 
     # creates reservations --needs already created propertty to base the reservation
     path('reservations/create/', ReservationListCreateView.as_view(), name='reservation-list'),
     # returns info on reservation with certain id 
     path('reservations/<int:pk>/', ReservationDetailView.as_view(), name='reservation-detail'),
     # get functions for info in json format
     path('reservations/<int:reservation_id>/info/', ReservationInfo.as_view(), name='reservation-info'),
-    path('properties/<int:property_id>/info/', PropertyExtensiveInfo.as_view(), name='property-info'),
-    # admin only - get all users and their info
-    path('users/all/', AllUsersView.as_view(), name='all-users'),
-    # basic info request - before click on room
-
-    # extensive info - after click on room
 
     #====================== SEARCH =========================
     # get all rooms in certain location
