@@ -3,14 +3,14 @@ import { useState } from "react";
 import axios from "axios";
 
 function MySignUp() {
-  //const url = "http://127.0.0.1:8000/api/users/create/";
+
   const [userInfo, setUserInfo] = useState({
     username: "",
     first_name: "",
     last_name: "",
     email: "",
-    //phoneNumber: "",
-    userType: "Renter",
+    phone_number: '',
+    user_type: "renter",
     password: "",
   });
 
@@ -22,31 +22,11 @@ function MySignUp() {
   };
   const [repeatPass, setRepeatPass] = useState("");
 
-  // function submit(e){
-  //   e.preventDefault();
-  //   {Axios.post(url, {
-  //     username: userInfo.username,
-  //     first_name: userInfo.first_name,
-  //     last_name: userInfo.last_name,
-  //     email: userInfo.email,
-  //     //phoneNumber: userInfo.phoneNumber,
-  //     password: userInfo.password,
-  //   })
-  //   .then(res=>{
-  //     setUserInfo(res.data);
-  //     console.log(res.userInfo);
-  //   })
-  //   .catch(error => {
-  //     console.error(error);
-  //   })
-  // };
-  // }
-
   function handleData(e) {
     const newdata = { ...userInfo };
     newdata[e.target.id] = e.target.value;
     setUserInfo(newdata);
-    //console.log(newdata);
+    console.log(newdata);
   }
 
   return (
@@ -114,9 +94,9 @@ function MySignUp() {
           </label>
           <input
             type="tel"
-            // onChange={(e) => handleData(e)}
-            id="phoneNumber"
-            //value={userInfo.phoneNumber}
+            onChange={(e) => handleData(e)}
+            id="phone_number"
+            value={userInfo.phone_number}
             className="form-control"
           />
         </div>
@@ -216,6 +196,7 @@ function isDesabled(userInfo, pass2) {
     userInfo.username === "" ||
     userInfo.first_name === "" ||
     userInfo.last_name === "" ||
+    userInfo.phoneNumber === "" ||
     userInfo.email === "" ||
     userInfo.password === ""
   ) {

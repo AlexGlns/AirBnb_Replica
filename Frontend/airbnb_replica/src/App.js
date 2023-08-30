@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import MyNavBar from './components/MyNavBar';
 import MySearch from './components/MySearch';
 import MySignUp from './components/MySignUp';
 import MyLogIn from './components/MyLogIn';
 import UsePagination from './components/UsePagination';
+import {  AuthProvider } from './context/AuthContext.js'
 import { Route, Routes } from "react-router-dom";
-
 
 const room1 = {
   Place: "Skiathos Xwra",
@@ -30,13 +30,14 @@ var hotels = [room1,room2,room2,room1,room1,room2,room1,room2,room2,room1,room1,
 function App() {
   return (
     <div className="App">
+      <AuthProvider>
       <MyNavBar />
       <Routes>
         <Route path="" element={<><MySearch /> <UsePagination records={hotels}/></>}/>
         <Route path="/SignUp" element={<MySignUp />} />
         <Route path="/LogIn" element={<MyLogIn/>} />
       </Routes>
-
+      </AuthProvider>
     </div>
   );
 }

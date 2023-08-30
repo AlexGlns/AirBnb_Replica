@@ -11,6 +11,27 @@ function MySearch() {
     persons_number: "",
   });
 
+  const searchRooms = async () => {
+    try {
+      await axios.get(createUrl(searchTerms)).then((res) => {
+        console.log(res.status, res.data);
+        setRooms(res.data.results);
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    searchRooms();
+  }, []);
+
+  const handleSubmit = (event) => {
+    console.log("handleSubmit ran");
+    event.preventDefault();
+  };
+
+
   function handleData(e) {
     const newdata = { ...searchTerms };
     newdata[e.target.id] = e.target.value;
@@ -20,7 +41,7 @@ function MySearch() {
 
   return (
     <div className="container py-2">
-      <form class="form-inline">
+      <form class="form-inline" onSubmit={handleSubmit}>
         <label htmlFor="inputCity" className="m-2 sr-only"></label>
         <input
           type="text"
@@ -30,7 +51,9 @@ function MySearch() {
           value={searchTerms.destination}
           placeholder="Type Destination"
         />
-        <label htmlFor="inputDate1" className="m-2">Select Date Departure :</label>
+        <label htmlFor="inputDate1" className="m-2">
+          Select Date Departure :
+        </label>
         <input
           type="date"
           onChange={(e) => handleData(e)}
@@ -60,16 +83,7 @@ function MySearch() {
           type="submit"
           id="searchButton"
           className="btn btn-primary m-2"
-          onClick={async () => {
-            try {
-              await axios.get(createUrl(searchTerms)).then((res) => {
-                console.log(res.status, res.data);
-                setRooms(res.data);
-              });
-            } catch (e) {
-              console.log(e);
-            }
-          }}
+          onClick={() => {searchRooms()}}
         >
           Search
         </button>
