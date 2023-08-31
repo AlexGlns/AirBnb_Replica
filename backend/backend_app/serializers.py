@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Property, Reservation, CustomUser
 
+#============================ USERS =================================
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -11,6 +12,12 @@ class CustomUserSerializer(serializers.ModelSerializer):
         user = CustomUser.objects.create_user(**validated_data)
         return user
 
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField()
+
+
+#=========================== PROPERTIES ==============================
 class PropertyShortInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Property
@@ -21,6 +28,7 @@ class PropertySerializer(serializers.ModelSerializer):
         model = Property
         fields = '__all__'
 
+#========================== RESERVATIONS ===============================
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
