@@ -2,6 +2,24 @@ from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 from django.conf import settings
 
+class CustomUser(AbstractUser):
+    USER_TYPE_CHOICES = (
+        ('admin', 'Admin'),
+        ('host', 'Host'),
+        ('renter', 'Renter'),
+        #('anonymous', 'Anonymous'),
+    )
+    
+    user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, default='renter')
+    phone_number = models.IntegerField(default=0000)
+    email = models.EmailField(unique=True)  
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)  
+    
+    def __str__(self):
+        return self.username
+
+
 class Property(models.Model):
     BOOLEAN_CHOICES = (
         ('Yes', 'Yes'),
@@ -44,6 +62,7 @@ class Property(models.Model):
     def __str__(self):
         return self.location
 
+
 class Reservation(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
     renter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -56,20 +75,4 @@ class Reservation(models.Model):
     def __str__(self):
         return f"Reservation for {self.property} by {self.renter}"
 
-class CustomUser(AbstractUser):
-    USER_TYPE_CHOICES = (
-        ('admin', 'Admin'),
-        ('host', 'Host'),
-        ('renter', 'Renter'),
-        #('anonymous', 'Anonymous'),
-    )
-    
-    user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, default='renter')
-    phone_number = models.IntegerField(default=0000)
-    email = models.EmailField(unique=True)  
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)  
-    
-    def __str__(self):
-        return self.username
 

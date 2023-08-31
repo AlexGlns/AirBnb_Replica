@@ -2,11 +2,12 @@ from django.shortcuts import render
 from rest_framework.permissions import AllowAny
 from rest_framework import generics
 from .models import Property, Reservation, CustomUser
-from .serializers import PropertySerializer, ReservationSerializer, CustomUserSerializer, PropertyShortInfoSerializer
+from .serializers import LoginSerializer, PropertySerializer, ReservationSerializer, CustomUserSerializer, PropertyShortInfoSerializer
 from rest_framework.response import Response
 from datetime import datetime
 from django.http import JsonResponse
-
+from django.contrib.auth import authenticate
+from rest_framework import status
 
 #======================= Properties ==============================
 
@@ -61,6 +62,12 @@ class ReservationInfo(generics.ListAPIView):
         return Response(serializer.data)
 
 #========================== Users ==============================
+
+class UserInfoView(generics.RetrieveAPIView):
+    serializer_class = CustomUserSerializer
+    queryset = CustomUser.objects.all()
+    lookup_field = 'username'
+
 class CustomUserCreateView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
@@ -74,6 +81,26 @@ class UserDetailsView(generics.RetrieveAPIView):
 class AllUsersView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
+
+# Login attempt
+class LoginView(generics.CreateAPIView):
+    serializer_class = LoginSerializer
+    
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        username = serializer.validated_data['username']
+        password = serializer.validated_data['password']
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            return Response({'message': 'Login successful'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
 
 #=========================== SEARCH =============================
 
