@@ -61,6 +61,12 @@ class ReservationInfo(generics.ListAPIView):
         return Response(serializer.data)
 
 #========================== Users ==============================
+
+class UserInfoView(generics.RetrieveAPIView):
+    serializer_class = CustomUserSerializer
+    queryset = CustomUser.objects.all()
+    lookup_field = 'username'
+
 class CustomUserCreateView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer

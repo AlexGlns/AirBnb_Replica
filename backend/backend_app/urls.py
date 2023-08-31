@@ -24,6 +24,8 @@ urlpatterns = [
     path('users/<int:id>/', UserDetailsView.as_view(), name='user-details'),
     # admin only - get all users and their info
     path('users/all/', AllUsersView.as_view(), name='all-users'),
+    # returns user's information from username --for login
+    path('users/search/<str:username>/', UserInfoView.as_view(), name='user-search'),
 
     #====================== PROPERTIES ======================
     # creates property --needs already created user
