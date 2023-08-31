@@ -18,6 +18,7 @@ class PropertyListCreateView(generics.ListCreateAPIView):
 class PropertyDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
+    lookup_field = 'id'
 
 class PropertyShortInfo(generics.RetrieveAPIView):
     serializer_class = PropertyShortInfoSerializer

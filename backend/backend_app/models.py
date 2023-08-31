@@ -38,7 +38,6 @@ class Property(models.Model):
     available_to = models.DateField()
     
     size = models.IntegerField(default=0)
-    bed_number = models.IntegerField(default=1)
     bathroom_number = models.IntegerField(default=1)
     living_room = models.CharField(max_length=20,choices=BOOLEAN_CHOICES, default="No")
     bed_number = models.IntegerField(default=1)
@@ -71,7 +70,6 @@ class Reservation(models.Model):
     end_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     
-
     def __str__(self):
         return f"Reservation for {self.property} by {self.renter}"
 

@@ -33,11 +33,11 @@ urlpatterns = [
     # creates property --needs already created user
     path('properties/create/', PropertyListCreateView.as_view(), name='property-list'),
     # returns info on property with certain id
-    path('properties/<int:pk>/', PropertyDetailView.as_view(), name='property-detail'),
+    path('properties/<int:id>/', PropertyDetailView.as_view(), name='property-detail'),
     # get extensive info for a property
-    path('properties/<int:property_id>/ext-info/', PropertyExtensiveInfo.as_view(), name='property-ext-info'),
+    path('properties/<int:id>/ext-info/', PropertyExtensiveInfo.as_view(), name='property-ext-info'),
     # get basic info for a property
-    path('property/<int:property_id>/short-info/', PropertyShortInfo.as_view(), name='property-short-info'),
+    path('properties/<int:id>/short-info/', PropertyShortInfo.as_view(), name='property-short-info'),
 
     #===================== RESERVATIONS ===================== 
     # creates reservations --needs already created propertty to base the reservation
