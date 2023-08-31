@@ -164,7 +164,7 @@ function MySignUp() {
             console.log(repeatPass);
             try {
               await axios
-                .post(`http://127.0.0.1:8000/api/users/create/`, userInfo)
+                .post(`https://127.0.0.1:8000/api/users/create/`, userInfo)
                 .then((res) => {
                   console.log(res.status, res.data);
                   setResponse(res);

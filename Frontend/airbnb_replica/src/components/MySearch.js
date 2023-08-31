@@ -102,7 +102,7 @@ function MySearch() {
 }
 
 function createUrl(searchTerms) {
-  var url = "http://127.0.0.1:8000/api/room-search/";
+  var url = "https://127.0.0.1:8000/api/room-search/";
   if (searchTerms.destination !== "") {
     url = url + searchTerms.destination + "/";
   }
