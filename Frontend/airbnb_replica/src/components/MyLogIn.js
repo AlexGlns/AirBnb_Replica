@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
+import AuthContext from "../context/AuthContext";
 
 function MyLogIn() {
+  let {loginUser, response} = useContext(AuthContext);
   return (
     <div className="container rounded bg-light mt-5 py-1">
       <h2>Log In</h2>
-      <form>
+      <form onSubmit={loginUser}>
         <div className="form-group py-1">
           <label>User Name</label>
           <input
             type="text"
+            name="Username"
             className="form-control"
-            id="exampleFormControlInput1"
+            id="Username"
           />
         </div>
 
@@ -21,7 +24,7 @@ function MyLogIn() {
             <label className="form-label" htmlFor="form3Example4c">
               Password
             </label>
-            <input type="password" id="form3Example4c" class="form-control" />
+            <input type="password" name="Password" id="Password" class="form-control" />
           </div>
         </div>
 
@@ -29,9 +32,25 @@ function MyLogIn() {
         <button type="submit" className="btn btn-primary m-2">
           Log in
         </button>
+        {statusMessages(response)}
       </form>
     </div>
   );
+}
+
+function statusMessages(status) {
+  if (status===""){
+    return;
+  }
+  if (status >= 400) {
+    return (
+      <h5 className="text-danger">
+        Error Username or Password.
+      </h5>
+    );
+  } else {
+    return <h5 className="text-success">Login successful.</h5>;
+  }
 }
 
 export default MyLogIn;
