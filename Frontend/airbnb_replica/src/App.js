@@ -3,9 +3,10 @@ import MyNavBar from './components/MyNavBar';
 import MySearch from './components/MySearch';
 import MySignUp from './components/MySignUp';
 import MyLogIn from './components/MyLogIn';
+import RoomDetails from './components/RoomDetails';
 import UsePagination from './components/UsePagination';
 import {  AuthProvider } from './context/AuthContext.js'
-import { Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const room1 = {
   Place: "Skiathos Xwra",
@@ -31,11 +32,13 @@ function App() {
   return (
     <div className="App">
       <AuthProvider>
-      <MyNavBar />
+      <MyNavBar/>
+
       <Routes>
         <Route path="" element={<><MySearch /> <UsePagination records={hotels}/></>}/>
         <Route path="/SignUp" element={<MySignUp />} />
         <Route path="/LogIn" element={<MyLogIn/>} />
+        <Route path="/RoomDetails" element={<RoomDetails />} />
       </Routes>
       </AuthProvider>
     </div>

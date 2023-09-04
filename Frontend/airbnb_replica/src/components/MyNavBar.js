@@ -46,7 +46,7 @@ function MyNavBar(props) {
         <button className="btn btn-outline-dark me-2" disabled={isDesabledLogOut(user)} onClick={() => logoutUser()} type="button">LogOut</button>
         </form>
         <div className="conainer">
-          <span className="navbar-text-hightlight-light mr-4">User : Anonymous </span>
+          <span className="navbar-text mr-4">User : {user.length!==0 ? user.username : "Anonymous"} </span>
           <img style={{height:"2rem"}}  src={userLogo} alt="User Image"/>
         </div>
       </div>

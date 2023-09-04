@@ -1,6 +1,5 @@
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
-import { useFetcher } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -67,6 +66,7 @@ export const AuthProvider = ({ children }) => {
   let logoutUser = () => {
     setUser([]);
     localStorage.removeItem('logedIn');
+    window.location.reload(true);
   }  
 
   let contextData = {
