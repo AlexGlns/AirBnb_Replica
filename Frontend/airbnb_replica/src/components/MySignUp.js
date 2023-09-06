@@ -3,14 +3,13 @@ import { useState } from "react";
 import axios from "axios";
 
 function MySignUp() {
-
   const [userInfo, setUserInfo] = useState({
     username: "",
     first_name: "",
     last_name: "",
     email: "",
-    phone_number: '',
-    user_type: "renter",
+    phone_number: "",
+    user_type: "Renter",
     password: "",
   });
 
@@ -101,27 +100,19 @@ function MySignUp() {
           />
         </div>
 
-        <div className="form-check form-check-inline py-1">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="inlineCheckbox1"
-            value="option1"
-          />
-          <label className="form-check-label" htmlFor="inlineCheckbox1">
-            Οικοδεσπότης
+        <div className="form-group">
+          <label className="py-2" htmlFor="formGroupExampleInput">
+            Select Type:
           </label>
-        </div>
-        <div className="form-check form-check-inline">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            id="inlineCheckbox2"
-            value="option2"
-          />
-          <label className="form-check-label" htmlFor="inlineCheckbox2">
-            Ενοικιαστής
-          </label>
+          <select
+            className="form-select mb-2"
+            id="user_type"
+            value={userInfo.user_type}
+            onChange={(e) => handleData(e)}
+          >
+            <option value="renter">Renter</option>
+            <option value="host">Host</option>
+          </select>
         </div>
 
         <div className="d-flex flex-row align-items-center mb-2">
@@ -210,7 +201,7 @@ function isDesabled(userInfo, pass2) {
 }
 
 function statusMessages(status) {
-  if (status===""){
+  if (status === "") {
     return;
   }
   if (status >= 400) {

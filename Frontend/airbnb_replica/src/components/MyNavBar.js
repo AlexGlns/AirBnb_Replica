@@ -1,10 +1,10 @@
 import React, { useCallback, useContext } from "react";
 import { Link } from "react-router-dom";
-import userLogo from '../icons/black-male-user-symbol.png'
+import userLogo from "../icons/black-male-user-symbol.png";
 import AuthContext from "../context/AuthContext";
 
 function MyNavBar(props) {
-  let {user, logoutUser} = useContext(AuthContext);
+  let { user, logoutUser } = useContext(AuthContext);
   return (
     <nav className="navbar navbar-expand-lg navbar-expand-mid navbar-expand-sm navbar-dark bg-primary">
       <div className="container-fluid">
@@ -31,35 +31,60 @@ function MyNavBar(props) {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/SignUp">
+              <Link className="nav-link" to="/SignUp" onClick={(event) => isDesabledSignUpLogIn(user) ? event.preventDefault() : null}>
                 Sign Up
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/LogIn">
+              <Link className="nav-link" to="/LogIn" onClick={(event) => isDesabledSignUpLogIn(user) ? event.preventDefault() : null}>
                 Log In
               </Link>
             </li>
+            {user.user_type === "host" ? (
+              <li className="nav-item">
+                <Link className="nav-link" to="/RoomUpload">
+                  Upload Room
+                </Link>
+              </li>
+            ) : null}
           </ul>
         </div>
         <form className="d-flex">
-        <button className="btn btn-outline-dark me-2" disabled={isDesabledLogOut(user)} onClick={() => logoutUser()} type="button">LogOut</button>
+          <button
+            className="btn btn-outline-dark me-2"
+            disabled={isDesabledLogOut(user)}
+            onClick={() => logoutUser()}
+            type="button"
+          >
+            LogOut
+          </button>
         </form>
         <div className="conainer">
-          <span className="navbar-text mr-4">User : {user.length!==0 ? user.username : "Anonymous"} </span>
-          <img style={{height:"2rem"}}  src={userLogo} alt="User Image"/>
+          <span className="navbar-text mr-4">
+            User : {user.length !== 0 ? user.username : "Anonymous"}{" "}
+          </span>
+          <img style={{ height: "2rem" }} src={userLogo} alt="User Image" />
         </div>
       </div>
     </nav>
   );
 }
 
-function isDesabledLogOut(user){
-  if (user.length === 0){
+function isDesabledLogOut(user) {
+  if (user.length === 0) {
     return true;
   }
 
   return false;
 }
+
+function isDesabledSignUpLogIn(user) {
+  if (user.length !== 0) {
+    return true;
+  }
+
+  return false;
+}
+
 
 export default MyNavBar;

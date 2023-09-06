@@ -5,8 +5,9 @@ import MySignUp from './components/MySignUp';
 import MyLogIn from './components/MyLogIn';
 import RoomDetails from './components/RoomDetails';
 import UsePagination from './components/UsePagination';
+import RoomUpload from './components/RoomUpload';
 import {  AuthProvider } from './context/AuthContext.js'
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 const room1 = {
   Place: "Skiathos Xwra",
@@ -33,12 +34,12 @@ function App() {
     <div className="App">
       <AuthProvider>
       <MyNavBar/>
-
       <Routes>
         <Route path="" element={<><MySearch /> <UsePagination records={hotels}/></>}/>
         <Route path="/SignUp" element={<MySignUp />} />
         <Route path="/LogIn" element={<MyLogIn/>} />
         <Route path="/RoomDetails" element={<RoomDetails />} />
+        <Route path="/RoomUpload" element={<RoomUpload />} />
       </Routes>
       </AuthProvider>
     </div>
