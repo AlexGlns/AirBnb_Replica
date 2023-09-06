@@ -54,4 +54,18 @@ urlpatterns = [
     path('room-search/<str:location>/<str:start_date>/<str:end_date>/', RoomLocationDateView.as_view(), name='rooms-in-location-date'),
     # get all rooms in certain location with date range and people limit
     path('room-search/<str:location>/<str:start_date>/<str:end_date>/<int:bed_number>/', RoomLocationDateBedsView.as_view(), name='rooms-in-location-date-people'),
+
+    #====================== RATINGS ========================
+    # create rating -- THIS PATH OR /API/PROPERTY/RATING???
+    path('properties/<int:property_id>/ratings/create/', CreateRatingView.as_view(), name='create-rating'),
+    # get all ratings
+    path('ratings/list/', RatingListView.as_view(), name='list-all-ratings'),
+    # get all ratings for a specific property
+    path('ratings/<int:property_id>/list/', PropertyRatingsListView.as_view(), name='ratings-for-property'),
+
+    #======================= COMMENTS ======================
+    # list comments from a property id
+    path('properties/<int:property_id>/comments/', CommentListView.as_view(), name='property-comments-list'),
+    # create a comment for a property
+    path('properties/<int:property_id>/comments/create/', CommentCreateView.as_view(), name='property-comment-create'),
 ]

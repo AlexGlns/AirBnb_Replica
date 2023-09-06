@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Property, Reservation, CustomUser
+from .models import Property, Reservation, CustomUser, Rating, Comment
 
 #============================ USERS =================================
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -16,6 +16,12 @@ class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
 
+#============================= RATING ================================
+
+class RatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ['id', 'user', 'property', 'rating']
 
 #=========================== PROPERTIES ==============================
 class PropertyShortInfoSerializer(serializers.ModelSerializer):
@@ -34,3 +40,8 @@ class ReservationSerializer(serializers.ModelSerializer):
         model = Reservation
         fields = '__all__'
 
+#============================= COMMENTS =================================
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = '__all__'

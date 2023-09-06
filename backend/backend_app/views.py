@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.permissions import AllowAny
 from rest_framework import generics
-from .models import Property, Reservation, CustomUser
-from .serializers import LoginSerializer, PropertySerializer, ReservationSerializer, CustomUserSerializer, PropertyShortInfoSerializer
+from .models import Property, Reservation, CustomUser, Rating, Comment
+from .serializers import CommentSerializer, RatingSerializer, LoginSerializer, PropertySerializer, ReservationSerializer, CustomUserSerializer, PropertyShortInfoSerializer
 from rest_framework.response import Response
 from datetime import datetime
 from django.http import JsonResponse
@@ -101,7 +101,28 @@ class LoginView(generics.CreateAPIView):
         else:
             return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
+#============================ Ratings ===========================
+# create rating
+class CreateRatingView(generics.CreateAPIView):
+    queryset = Rating.objects.all()
+    serializer_class = RatingSerializer
 
+# list all ratings
+class RatingListView(generics.ListAPIView):
+    queryset = Rating.objects.all()
+    serializer_class = RatingSerializer
+
+# list all ratings for a property
+class PropertyRatingsListView(generics.ListAPIView):
+    serializer_class = RatingSerializer
+
+    def get_queryset(self):
+        # Get the property_id from the URL parameter
+        property_id = self.kwargs['property_id']
+        
+        # Filter ratings by the specified property_id
+        queryset = Rating.objects.filter(property_id=property_id)
+        return queryset
 
 #=========================== SEARCH =============================
 
@@ -176,5 +197,15 @@ class RoomLocationDateBedsView(generics.ListAPIView):
         }
         return Response(response_data)
 
-#============================================================================
+#=========================== COMMENTS ============================
+class CommentCreateView(generics.CreateAPIView):
+    serializer_class = CommentSerializer
+
+class CommentListView(generics.ListAPIView):
+    serializer_class = CommentSerializer
+
+    def get_queryset(self):
+        property_id = self.kwargs['property_id']
+        queryset = Comment.objects.filter(property_id=property_id)
+        return queryset
 
