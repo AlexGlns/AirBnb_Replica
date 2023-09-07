@@ -1,7 +1,10 @@
 from django.contrib.auth.models import User, AbstractUser
 from django.db import models
 from django.conf import settings
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.contrib.auth import get_user_model
 
+#======================= USERS ============================
 class CustomUser(AbstractUser):
     USER_TYPE_CHOICES = (
         ('admin', 'Admin'),
@@ -19,7 +22,7 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.username
 
-
+#======================== PROPERTIES =======================
 class Property(models.Model):
     BOOLEAN_CHOICES = (
         ('Yes', 'Yes'),
@@ -38,7 +41,6 @@ class Property(models.Model):
     available_to = models.DateField()
     
     size = models.IntegerField(default=0)
-    bed_number = models.IntegerField(default=1)
     bathroom_number = models.IntegerField(default=1)
     living_room = models.CharField(max_length=20,choices=BOOLEAN_CHOICES, default="No")
     bed_number = models.IntegerField(default=1)
@@ -58,11 +60,11 @@ class Property(models.Model):
 
     #photos, owner info
     
-
     def __str__(self):
         return self.location
 
 
+#============================ RESERVATIONS ==========================
 class Reservation(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
     renter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -71,8 +73,25 @@ class Reservation(models.Model):
     end_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     
-
     def __str__(self):
         return f"Reservation for {self.property} by {self.renter}"
 
 
+#============================ RATINGS =============================
+class Rating(models.Model):
+    property = models.ForeignKey('Property', on_delete=models.CASCADE, related_name='ratings')
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
+
+    def __str__(self):
+        return f"{self.user.username}'s rating for {self.property}"
+
+#============================ COMMENTS ==========================
+class Comment(models.Model):
+    property = models.ForeignKey('Property', on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Comment by {self.author} on {self.property}"
