@@ -1,14 +1,13 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import RoomCard from "./RoomCard";
 
-function CardGrid({rooms}) {
+function CardGrid({rooms, searchTerms}) {
 
   return (
     <div className="container-fluid mb-5">
         {rooms?.length > 0 ?
         <div className="row">
-            {rooms.map((room) => <div className="col-sm"><RoomCard room={room}/></div>)}
+            {rooms.map((room) => <div className="col-sm"><RoomCard room={room} searchTerms={searchTerms}/></div>)}
         </div>
         : (
           <div>

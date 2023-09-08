@@ -9,7 +9,7 @@ function MySignUp() {
     last_name: "",
     email: "",
     phone_number: "",
-    user_type: "Renter",
+    user_type: "renter",
     password: "",
   });
 

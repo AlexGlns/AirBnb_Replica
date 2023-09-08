@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
+import UsePagination from "./UsePagination";
 import axios from "axios";
 
 function MySearch() {
@@ -16,6 +17,7 @@ function MySearch() {
       await axios.get(createUrl(searchTerms)).then((res) => {
         console.log(res.status, res.data);
         setRooms(res.data.results);
+        console.log(rooms);
       });
     } catch (e) {
       console.log(e);
@@ -87,7 +89,7 @@ function MySearch() {
         >
           Search
         </button>
-        {rooms?.length > 0 ? (
+        {/* {rooms?.length > 0 ? (
           <div>
             <h5>Rooms Found</h5>
           </div>
@@ -95,8 +97,10 @@ function MySearch() {
           <div>
             <h5 className="text-danger">No Rooms Found!</h5>
           </div>
-        )}
+        )} */}
       </form>
+
+      <UsePagination records={rooms} searcTerms={searchTerms}/>
     </div>
   );
 }

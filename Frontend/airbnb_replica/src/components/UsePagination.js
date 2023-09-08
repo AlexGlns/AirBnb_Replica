@@ -2,7 +2,7 @@ import React from "react";
 import { useState} from "react";
 import CardGrid from "./CardGrid";
 
-function UsePagination({ records, recordesPerPage = 10 }) {
+function UsePagination({ records, searcTerms, recordesPerPage = 10 }) {
   const [currentPage, setCurrentPage] = useState(1);
   const lastIndex = currentPage * recordesPerPage;
   const firstIndex = lastIndex - recordesPerPage;
@@ -11,7 +11,7 @@ function UsePagination({ records, recordesPerPage = 10 }) {
   const numbers = [...Array(numOfPages + 1).keys()].slice(1);
   return (
     <div>
-      <CardGrid rooms={renderRecords} />
+      <CardGrid rooms={renderRecords} searchTerms={searcTerms} />
       <div className="d-flex justify-content-center">
       <nav>
         <ul className="pagination">
