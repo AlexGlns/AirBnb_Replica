@@ -4,6 +4,7 @@ import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import { Icon } from "leaflet";
 import AuthContext from "../context/AuthContext";
+import { Rate } from "antd";
 import axios from "axios";
 
 function RoomDetails() {
@@ -15,7 +16,12 @@ function RoomDetails() {
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
 
-  const [reservation_properties, setReservationProperties] =useState({
+  const handleSubmit = (event) => {
+    console.log("handleSubmit ran");
+    event.preventDefault();
+  };
+
+  const [reservation_properties, setReservationProperties] = useState({
     start_date: "",
     end_date: "",
     property: "",
@@ -36,10 +42,10 @@ function RoomDetails() {
     // reservation_properties.end_date = objData1.return_date;
     // reservation_properties.property = objData.id;
     setReservationProperties({
-      start_date : objData1.departure_date,
-      end_date : objData1.return_date,
-      property : objData.id,
-      renter : user.id
+      start_date: objData1.departure_date,
+      end_date: objData1.return_date,
+      property: objData.id,
+      renter: user.id,
     });
     console.log(reservation_properties);
     setLat(parseFloat(objData.lat));
@@ -167,6 +173,27 @@ function RoomDetails() {
         </div>
         {statusMessages(response)}
       </div>
+
+      <div className="container rounded bg-light mt-5 py-1">
+        <h3>Rate Room : </h3>
+        <form onSubmit={handleSubmit}>
+          <Rate
+            tooltips={["Very Bad", "Poor", "Ok", "Good", "Excellent"]}
+            allowHalf
+          />
+          <div className="form-group py-1">
+            <label htmlFor="exampleFormControlTextarea1">Comments</label>
+            <textarea className="form-control" rows="3"></textarea>
+          </div>
+
+          <button
+          type="submit"
+          className="btn btn-primary m-2"
+          >
+          Upload
+        </button>
+        </form>
+      </div>
     </div>
   );
 }
@@ -198,11 +225,7 @@ function statusMessages(status) {
     return;
   }
   if (status >= 400) {
-    return (
-      <h5 className="text-danger">
-        Something went wrong.
-      </h5>
-    );
+    return <h5 className="text-danger">Something went wrong.</h5>;
   } else {
     return <h5 className="text-success">Reservation created !</h5>;
   }
