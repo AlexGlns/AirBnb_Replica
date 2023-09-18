@@ -8,6 +8,7 @@ from datetime import datetime
 from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from rest_framework import status
+from rest_framework.decorators import api_view
 
 #======================= PROPERTIES ==============================
 
@@ -61,6 +62,20 @@ class ReservationInfo(generics.ListAPIView):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+# delete reservation
+@api_view(['DELETE'])
+def delete_reservation(request, user_id, reservation_id):
+    try:
+        # Check if the reservation exists and belongs to the user
+        reservation = Reservation.objects.get(id=reservation_id, renter_id=user_id)
+    except Reservation.DoesNotExist:
+        return Response({"message": "Reservation not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    # Delete the reservation
+    reservation.delete()
+    return Response({"message": "Reservation deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
 
 # reservations per user
 class ReservationsUserView(generics.ListAPIView):

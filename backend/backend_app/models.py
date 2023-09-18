@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 
 #======================= USERS ============================
 class CustomUser(AbstractUser):
@@ -75,16 +76,21 @@ class Reservation(models.Model):
     def __str__(self):
         return f"Reservation for {self.property} by {self.renter}"
 
-    def overlap(self):
-        # Check if there are overlapping reservations for the same property
+    def clean(self):
+        # Check for overlapping reservations
         overlapping_reservations = Reservation.objects.filter(
             property=self.property,
             start_date__lte=self.end_date,
             end_date__gte=self.start_date,
-        ).exclude(pk=self.pk)
+        ).exclude(id=self.id)
 
         if overlapping_reservations.exists():
-            raise ValidationError("This property is not available for the selected dates.")
+            raise ValidationError("This reservation overlaps with an existing reservation.")
+
+    def save(self, *args, **kwargs):
+        # Run the clean method to check for overlaps before saving
+        self.clean()
+        super().save(*args, **kwargs)
 
 #============================ RATINGS =============================
 class Rating(models.Model):
