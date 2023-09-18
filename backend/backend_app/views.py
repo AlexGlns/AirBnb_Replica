@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from rest_framework import status
 
-#======================= Properties ==============================
+#======================= PROPERTIES ==============================
 
 class PropertyListCreateView(generics.ListCreateAPIView):
     queryset = Property.objects.all()
@@ -39,7 +39,7 @@ class PropertyExtensiveInfo(generics.ListAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-#========================== Reservations ===========================
+#========================== RESERVATIONS ===========================
 
 class ReservationListCreateView(generics.ListCreateAPIView):
     queryset = Reservation.objects.all()
@@ -62,7 +62,18 @@ class ReservationInfo(generics.ListAPIView):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-#========================== Users ==============================
+# reservations per user
+class ReservationsUserView(generics.ListAPIView):
+    serializer_class = ReservationSerializer
+
+    def get_queryset(self):
+        user_id = self.kwargs.get('user_id')
+        user = get_object_or_404(get_user_model(), id=user_id)
+
+        # Filter reservations for the specified user
+        return Reservation.objects.filter(renter=user)
+
+#========================== USERS ==============================
 
 class UserInfoView(generics.RetrieveAPIView):
     serializer_class = CustomUserSerializer
@@ -101,7 +112,7 @@ class LoginView(generics.CreateAPIView):
         else:
             return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
 
-#============================ Ratings ===========================
+#============================ RATINGS ===========================
 # create rating
 class CreateRatingView(generics.CreateAPIView):
     queryset = Rating.objects.all()
@@ -134,7 +145,7 @@ class RoomsLocationView(generics.ListAPIView):
         location = self.kwargs['location']
         queryset = Property.objects.filter(location__icontains=location).order_by('-price')
         return queryset
-    
+
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
@@ -198,6 +209,7 @@ class RoomLocationDateBedsView(generics.ListAPIView):
         return Response(response_data)
 
 #=========================== COMMENTS ============================
+
 class CommentCreateView(generics.CreateAPIView):
     serializer_class = CommentSerializer
 

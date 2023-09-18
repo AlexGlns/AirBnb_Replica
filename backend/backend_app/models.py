@@ -10,7 +10,6 @@ class CustomUser(AbstractUser):
         ('admin', 'Admin'),
         ('host', 'Host'),
         ('renter', 'Renter'),
-        #('anonymous', 'Anonymous'),
     )
     
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, default='renter')
@@ -68,7 +67,7 @@ class Property(models.Model):
 class Reservation(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
     renter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    # reservation from to
+    # reservation from-to
     start_date = models.DateField()
     end_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -76,6 +75,16 @@ class Reservation(models.Model):
     def __str__(self):
         return f"Reservation for {self.property} by {self.renter}"
 
+    def overlap(self):
+        # Check if there are overlapping reservations for the same property
+        overlapping_reservations = Reservation.objects.filter(
+            property=self.property,
+            start_date__lte=self.end_date,
+            end_date__gte=self.start_date,
+        ).exclude(pk=self.pk)
+
+        if overlapping_reservations.exists():
+            raise ValidationError("This property is not available for the selected dates.")
 
 #============================ RATINGS =============================
 class Rating(models.Model):
