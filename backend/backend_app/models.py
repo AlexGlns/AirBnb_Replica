@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 
 #======================= USERS ============================
 class CustomUser(AbstractUser):
@@ -10,7 +11,6 @@ class CustomUser(AbstractUser):
         ('admin', 'Admin'),
         ('host', 'Host'),
         ('renter', 'Renter'),
-        #('anonymous', 'Anonymous'),
     )
     
     user_type = models.CharField(max_length=20, choices=USER_TYPE_CHOICES, default='renter')
@@ -68,7 +68,7 @@ class Property(models.Model):
 class Reservation(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE)
     renter = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    # reservation from to
+    # reservation from-to
     start_date = models.DateField()
     end_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
@@ -76,6 +76,21 @@ class Reservation(models.Model):
     def __str__(self):
         return f"Reservation for {self.property} by {self.renter}"
 
+    def clean(self):
+        # Check for overlapping reservations
+        overlapping_reservations = Reservation.objects.filter(
+            property=self.property,
+            start_date__lte=self.end_date,
+            end_date__gte=self.start_date,
+        ).exclude(id=self.id)
+
+        if overlapping_reservations.exists():
+            raise ValidationError("This reservation overlaps with an existing reservation.")
+
+    def save(self, *args, **kwargs):
+        # Run the clean method to check for overlaps before saving
+        self.clean()
+        super().save(*args, **kwargs)
 
 #============================ RATINGS =============================
 class Rating(models.Model):
