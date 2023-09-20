@@ -28,6 +28,8 @@ urlpatterns = [
     path('users/search/<str:username>/', UserInfoView.as_view(), name='user-search'),
     # login path
     path('users/login/', LoginView.as_view(), name='login'),
+    # host admission - must be admin
+    path('users/<int:user_id>/admit-host/', admit_host, name='admit-host'),
 
     #====================== PROPERTIES ======================
     # creates property --needs already created user
