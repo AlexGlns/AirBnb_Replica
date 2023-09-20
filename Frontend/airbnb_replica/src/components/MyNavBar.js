@@ -65,7 +65,7 @@ function MyNavBar(props) {
             {user.length !== 0 ? (
               <li className="nav-item dropdown">
                 <NavDropdown title="My Profile" id="basic-nav-dropdown">
-                  <NavDropdown.Item href="#action/3.2">
+                  <NavDropdown.Item href="/Reservations">
                     MyReservations
                   </NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.2">

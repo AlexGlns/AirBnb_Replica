@@ -5,6 +5,7 @@ import MySignUp from './components/MySignUp';
 import MyLogIn from './components/MyLogIn';
 import RoomDetails from './components/RoomDetails';
 import RoomUpload from './components/RoomUpload';
+import Reservations from './components/Reservations';
 import {  AuthProvider } from './context/AuthContext.js'
 import { Route, Routes } from "react-router-dom";
 
@@ -39,6 +40,7 @@ function App() {
         <Route path="/LogIn" element={<MyLogIn/>} />
         <Route path="/RoomDetails" element={<RoomDetails />} />
         <Route path="/RoomUpload" element={<RoomUpload />} />
+        <Route path="/Reservations" element={<Reservations />} />
       </Routes>
       </AuthProvider>
     </div>
