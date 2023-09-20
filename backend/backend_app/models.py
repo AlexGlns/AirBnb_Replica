@@ -33,6 +33,7 @@ class Property(models.Model):
         ('Unknown', 'Unknown')
     )
 
+    title = models.CharField(max_length=100, default="Property")
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     location = models.CharField(max_length=100)
     
