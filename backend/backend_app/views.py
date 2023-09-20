@@ -49,29 +49,6 @@ class ReservationListCreateView(generics.ListCreateAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
 
-@api_view(['POST'])
-def create_reservation(request):
-    # Deserialize the request data using your serializer
-
-    # Validate the data
-    serializer = ReservationSerializer(data=request.data)
-    if not serializer.is_valid():
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    # Check for overlapping reservations
-    overlapping_reservations = Reservation.objects.filter(
-        property=serializer.validated_data['property'],
-        start_date__lt=serializer.validated_data['end_date'],
-        end_date__gt=serializer.validated_data['start_date']
-    )
-    if overlapping_reservations.exists():
-        return Response({"detail": "This reservation overlaps with an existing reservation."}, status=status.HTTP_400_BAD_REQUEST)
-
-    # Create the reservation
-    reservation = serializer.save()
-    return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-# details for all reservations
 class ReservationDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer

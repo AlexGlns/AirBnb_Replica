@@ -41,7 +41,7 @@ urlpatterns = [
 
     #===================== RESERVATIONS ===================== 
     # creates reservations --needs already created propertty to base the reservation
-    path('reservations/create/', create_reservation, name='reservation-list'),
+    path('reservations/create/', ReservationListCreateView.as_view(), name='reservation-list'),
     # returns info on reservation with certain id 
     path('reservations/<int:pk>/', ReservationDetailView.as_view(), name='reservation-detail'),
     # get functions for info in json format
@@ -49,7 +49,7 @@ urlpatterns = [
     # get all reservations of a user
     path('reservations/users/<int:user_id>/', ReservationsUserView.as_view(), name='user-reservations'),
     # delete reservation with id and user id (to narrow it down)
-    path('reservations/users/<int:user_id>/<int:pk>/delete/', delete_reservation, name='reservation-delete'),
+    path('reservations/users/<int:user_id>/<int:reservation_id>/delete/', delete_reservation, name='reservation-delete'),
     
     #====================== SEARCH =========================
     # get all rooms in certain location
