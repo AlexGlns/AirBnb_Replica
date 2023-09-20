@@ -41,7 +41,7 @@ urlpatterns = [
 
     #===================== RESERVATIONS ===================== 
     # creates reservations --needs already created propertty to base the reservation
-    path('reservations/create/', ReservationListCreateView.as_view(), name='reservation-list'),
+    path('reservations/create/', create_reservation, name='reservation-list'),
     # returns info on reservation with certain id 
     path('reservations/<int:pk>/', ReservationDetailView.as_view(), name='reservation-detail'),
     # get functions for info in json format

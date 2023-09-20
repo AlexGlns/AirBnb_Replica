@@ -77,22 +77,17 @@ class Reservation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f"Reservation for {self.property} by {self.renter}"
+        return f"Reservation for {self.property} by {self.renter} from {self.start_date} to {self.end_date}"
 
-    def clean(self):
+    def save(self, *args, **kwargs):
         # Check for overlapping reservations
         overlapping_reservations = Reservation.objects.filter(
             property=self.property,
-            start_date__lte=self.end_date,
-            end_date__gte=self.start_date,
-        ).exclude(id=self.id)
-
+            start_date__lt=self.end_date,
+            end_date__gt=self.start_date
+        )
         if overlapping_reservations.exists():
-            raise ValidationError("This reservation overlaps with an existing reservation.")
-
-    def save(self, *args, **kwargs):
-        # Run the clean method to check for overlaps before saving
-        self.clean()
+            raise ValidationError("This property is already reserved at this time frame")
         super().save(*args, **kwargs)
 
 #============================ RATINGS =============================
