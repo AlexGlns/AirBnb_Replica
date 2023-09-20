@@ -47,9 +47,9 @@ urlpatterns = [
     # get functions for info in json format
     path('reservations/<int:reservation_id>/info/', ReservationInfo.as_view(), name='reservation-info'),
     # get all reservations of a user
-    path('user/reservations/<int:user_id>/', ReservationsUserView.as_view(), name='user-reservations'),
+    path('reservations/users/<int:user_id>/', ReservationsUserView.as_view(), name='user-reservations'),
     # delete reservation with id and user id (to narrow it down)
-    path('user/reservations/user/<int:user_id>/<int:pk>/delete/', delete_reservation, name='reservation-delete'),
+    path('reservations/users/<int:user_id>/<int:pk>/delete/', delete_reservation, name='reservation-delete'),
     
     #====================== SEARCH =========================
     # get all rooms in certain location

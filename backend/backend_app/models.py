@@ -17,7 +17,10 @@ class CustomUser(AbstractUser):
     phone_number = models.IntegerField(default=0000)
     email = models.EmailField(unique=True)  
     first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=30)  
+    last_name = models.CharField(max_length=30) 
+
+    is_host = models.BooleanField(default=False)  # Indicates whether the user is a host
+    is_approved = models.BooleanField(default=False)  # Indicates whether the host is approved by admin 
     
     def __str__(self):
         return self.username
