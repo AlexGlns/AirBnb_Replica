@@ -1,10 +1,13 @@
-import React, { useCallback, useContext } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import userLogo from "../icons/black-male-user-symbol.png";
 import AuthContext from "../context/AuthContext";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 function MyNavBar(props) {
+
   let { user, logoutUser } = useContext(AuthContext);
+
   return (
     <nav className="navbar navbar-expand-lg navbar-expand-mid navbar-expand-sm navbar-dark bg-primary">
       <div className="container-fluid">
@@ -31,12 +34,24 @@ function MyNavBar(props) {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/SignUp" onClick={(event) => isDesabledSignUpLogIn(user) ? event.preventDefault() : null}>
+              <Link
+                className="nav-link"
+                to="/SignUp"
+                onClick={(event) =>
+                  isDesabledSignUpLogIn(user) ? event.preventDefault() : null
+                }
+              >
                 Sign Up
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/LogIn" onClick={(event) => isDesabledSignUpLogIn(user) ? event.preventDefault() : null}>
+              <Link
+                className="nav-link"
+                to="/LogIn"
+                onClick={(event) =>
+                  isDesabledSignUpLogIn(user) ? event.preventDefault() : null
+                }
+              >
                 Log In
               </Link>
             </li>
@@ -45,6 +60,18 @@ function MyNavBar(props) {
                 <Link className="nav-link" to="/RoomUpload">
                   Upload Room
                 </Link>
+              </li>
+            ) : null}
+            {user.length !== 0 ? (
+              <li className="nav-item dropdown">
+                <NavDropdown title="My Profile" id="basic-nav-dropdown">
+                  <NavDropdown.Item href="#action/3.2">
+                    MyReservations
+                  </NavDropdown.Item>
+                  <NavDropdown.Item href="#action/3.2">
+                    Settings
+                  </NavDropdown.Item>
+                </NavDropdown>
               </li>
             ) : null}
           </ul>
@@ -85,6 +112,5 @@ function isDesabledSignUpLogIn(user) {
 
   return false;
 }
-
 
 export default MyNavBar;
