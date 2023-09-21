@@ -75,7 +75,10 @@ function MySearch() {
 
         <label htmlFor="numberOfPersons" className="m-2"></label>
         <input
+          style={{ width: "12rem" }}
           type="number"
+          min="1"
+          max="1000000"
           onChange={(e) => handleData(e)}
           id="persons_number"
           value={searchTerms.persons_number}
@@ -89,15 +92,6 @@ function MySearch() {
         >
           Search
         </button>
-        {/* {rooms?.length > 0 ? (
-          <div>
-            <h5>Rooms Found</h5>
-          </div>
-        ) : (
-          <div>
-            <h5 className="text-danger">No Rooms Found!</h5>
-          </div>
-        )} */}
       </form>
 
       <UsePagination records={rooms} searcTerms={searchTerms}/>

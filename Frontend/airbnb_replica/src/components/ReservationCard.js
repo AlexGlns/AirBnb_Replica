@@ -43,11 +43,12 @@ function ReservationCard({ reservation }) {
           <li className="list-group-item">
             <button
               className="btn btn-primary m-1"
+              type="submit"
               onClick={async () => {
                 try {
                   await axios
                     .delete(
-                      `https://127.0.0.1:8000/api/reservations/users/${reservation.id}/${reservation.renter}/delete/`
+                      `https://127.0.0.1:8000/api/reservations/users/${reservation.renter}/${reservation.id}/delete/`
                     )
                     .then((res) => {
                       console.log(res.status);
@@ -58,7 +59,9 @@ function ReservationCard({ reservation }) {
                 } catch (e) {
                   console.log(e);
                 }
-              }}
+                window.location.reload(true) //refresh page
+              }
+            }
             >
              Delete
             </button>

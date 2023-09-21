@@ -6,9 +6,16 @@ import { Icon } from "leaflet";
 import AuthContext from "../context/AuthContext";
 import { Rate } from "antd";
 import axios from "axios";
+import Button from "react-bootstrap/Button";
+import Alert from "react-bootstrap/Alert";
 
 function RoomDetails() {
   let { user } = useContext(AuthContext);
+
+  const [showDialog, setShowDialog] = useState(false); // state to open alert dialog
+
+  const open = () => setShowDialog(true);
+  const close = () => setShowDialog(false);
 
   const [response, setResponse] = useState("");
   const [desplayData, setDesplayData] = useState([]);
@@ -38,9 +45,6 @@ function RoomDetails() {
     const objData = JSON.parse(prop1);
     const objData1 = JSON.parse(prop2);
 
-    // reservation_properties.start_date = objData1.departure_date;
-    // reservation_properties.end_date = objData1.return_date;
-    // reservation_properties.property = objData.id;
     setReservationProperties({
       start_date: objData1.departure_date,
       end_date: objData1.return_date,
@@ -143,33 +147,59 @@ function RoomDetails() {
         {lat !== 0 ? desplayMap(lat, lng, customIcon) : null}
 
         <div class="d-grid gap-2 py-4">
-          <button
-            class="btn btn-primary py-2"
-            onClick={async () => {
-              console.log(reservation_properties);
-              try {
-                await axios
-                  .post(
-                    `https://127.0.0.1:8000/api/reservations/create/`,
-                    reservation_properties
-                  )
-                  .then((res) => {
-                    console.log(res.status, res.data);
-                    setResponse(res);
-                  })
-                  .catch((error) => {
-                    setResponse(400);
-                    console.log(error);
-                  });
-              } catch (e) {
-                setResponse(400);
-                console.log(e);
-              }
-            }}
-            type="button"
-          >
+          <button class="btn btn-primary py-2" onClick={open} type="button">
             Κράτηση
           </button>
+
+          <div>
+            {showDialog && (
+              <>
+                <Alert variant="warning">
+                  <Alert.Heading>My Alert</Alert.Heading>
+                  <p>Are you sure you want to make this reseravation ?</p>
+                  <hr />
+                  <div className="d-flex justify-content">
+                    <Button
+                      className="m-2"
+                      variant="success"
+                      onClick={async () => {
+                        console.log(reservation_properties);
+                        try {
+                          await axios
+                            .post(
+                              `https://127.0.0.1:8000/api/reservations/create/`,
+                              reservation_properties
+                            )
+                            .then((res) => {
+                              console.log(res.status, res.data);
+                              setResponse(res);
+                            })
+                            .catch((error) => {
+                              setResponse(400);
+                              console.log(error);
+                            });
+                        } catch (e) {
+                          setResponse(400);
+                          console.log(e);
+                        }
+                        close()
+                      }
+                    }
+                    >
+                      Yes
+                    </Button>
+                    <Button
+                      className="m-2"
+                      variant="danger"
+                      onClick={() => close()}
+                    >
+                      No
+                    </Button>
+                  </div>
+                </Alert>
+              </>
+            )}
+          </div>
         </div>
         {statusMessages(response)}
       </div>
@@ -186,12 +216,9 @@ function RoomDetails() {
             <textarea className="form-control" rows="3"></textarea>
           </div>
 
-          <button
-          type="submit"
-          className="btn btn-primary m-2"
-          >
-          Upload
-        </button>
+          <button type="submit" className="btn btn-primary m-2">
+            Upload
+          </button>
         </form>
       </div>
     </div>

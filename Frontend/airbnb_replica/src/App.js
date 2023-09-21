@@ -5,6 +5,7 @@ import MySignUp from './components/MySignUp';
 import MyLogIn from './components/MyLogIn';
 import RoomDetails from './components/RoomDetails';
 import RoomUpload from './components/RoomUpload';
+import AccountSettings from './components/AccountSettings';
 import Reservations from './components/Reservations';
 import {  AuthProvider } from './context/AuthContext.js'
 import { Route, Routes } from "react-router-dom";
@@ -41,6 +42,7 @@ function App() {
         <Route path="/RoomDetails" element={<RoomDetails />} />
         <Route path="/RoomUpload" element={<RoomUpload />} />
         <Route path="/Reservations" element={<Reservations />} />
+        <Route path="/Account/Manage" element={<AccountSettings />} />
       </Routes>
       </AuthProvider>
     </div>

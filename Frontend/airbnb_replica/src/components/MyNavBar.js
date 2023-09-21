@@ -66,10 +66,10 @@ function MyNavBar(props) {
               <li className="nav-item dropdown">
                 <NavDropdown title="My Profile" id="basic-nav-dropdown">
                   <NavDropdown.Item href="/Reservations">
-                    MyReservations
+                    My Reservations
                   </NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">
-                    Settings
+                  <NavDropdown.Item href="/Account/Manage">
+                    My Account
                   </NavDropdown.Item>
                 </NavDropdown>
               </li>
