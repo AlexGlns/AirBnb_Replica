@@ -28,6 +28,8 @@ urlpatterns = [
     path('users/search/<str:username>/', UserInfoView.as_view(), name='user-search'),
     # login path
     path('users/login/', LoginView.as_view(), name='login'),
+    # host admission - must be admin
+    path('users/<int:user_id>/admit-host/', admit_host, name='admit-host'),
 
     #====================== PROPERTIES ======================
     # creates property --needs already created user
@@ -49,7 +51,7 @@ urlpatterns = [
     # get all reservations of a user
     path('reservations/users/<int:user_id>/', ReservationsUserView.as_view(), name='user-reservations'),
     # delete reservation with id and user id (to narrow it down)
-    path('reservations/users/<int:user_id>/<int:pk>/delete/', delete_reservation, name='reservation-delete'),
+    path('reservations/users/<int:user_id>/<int:reservation_id>/delete/', delete_reservation, name='reservation-delete'),
     
     #====================== SEARCH =========================
     # get all rooms in certain location

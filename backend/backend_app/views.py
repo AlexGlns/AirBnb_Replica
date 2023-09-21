@@ -8,10 +8,10 @@ from datetime import datetime
 from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
-
+from rest_framework.permissions import IsAdminUser
 
 #======================= PROPERTIES ==============================
 
@@ -129,6 +129,20 @@ class LoginView(generics.CreateAPIView):
             return Response({'message': 'Login successful'}, status=status.HTTP_200_OK)
         else:
             return Response({'message': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+
+# host admission process
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def admit_host(request, user_id):
+    try:
+        user = get_user_model().objects.get(id=user_id)
+    except get_user_model().DoesNotExist:
+        return Response({"message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+
+    user.is_host = True
+    user.save()
+
+    return Response({"message": "User admitted as a host"}, status=status.HTTP_200_OK)
 
 #============================ RATINGS ===========================
 # create rating
