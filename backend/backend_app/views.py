@@ -8,10 +8,12 @@ from datetime import datetime
 from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from rest_framework.permissions import IsAdminUser
+from rest_framework_simplejwt.authentication import JWTAuthentication  
+from rest_framework.permissions import IsAuthenticated
 
 #======================= PROPERTIES ==============================
 
@@ -108,11 +110,14 @@ class UserDetailsView(generics.RetrieveAPIView):
     lookup_field = 'id'
 
 # Admin property -> get all users and their info
+@authentication_classes([JWTAuthentication])  
+@permission_classes([IsAuthenticated])
 class AllUsersView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
-# Login attempt
+@authentication_classes([JWTAuthentication]) 
+@permission_classes([IsAuthenticated])
 class LoginView(generics.CreateAPIView):
     serializer_class = LoginSerializer
     
@@ -143,6 +148,7 @@ def admit_host(request, user_id):
     user.save()
 
     return Response({"message": "User admitted as a host"}, status=status.HTTP_200_OK)
+
 
 #============================ RATINGS ===========================
 # create rating

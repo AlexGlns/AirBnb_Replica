@@ -40,7 +40,14 @@ INSTALLED_APPS = [
     'backend_app',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_framework_simplejwt',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'backend_app.authentication.JWTAuthentication',
+    ),
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
