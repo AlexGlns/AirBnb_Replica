@@ -8,10 +8,17 @@ from datetime import datetime
 from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
 from rest_framework.permissions import IsAdminUser
+from rest_framework_simplejwt.authentication import JWTAuthentication  
+from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import render, redirect
+from .forms import ImageForm
+import mimetypes
+import os
+from wsgiref.util import FileWrapper
 
 #======================= PROPERTIES ==============================
 
@@ -108,11 +115,14 @@ class UserDetailsView(generics.RetrieveAPIView):
     lookup_field = 'id'
 
 # Admin property -> get all users and their info
+@authentication_classes([JWTAuthentication])  
+@permission_classes([IsAuthenticated])
 class AllUsersView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
-# Login attempt
+@authentication_classes([JWTAuthentication]) 
+@permission_classes([IsAuthenticated])
 class LoginView(generics.CreateAPIView):
     serializer_class = LoginSerializer
     
@@ -143,6 +153,7 @@ def admit_host(request, user_id):
     user.save()
 
     return Response({"message": "User admitted as a host"}, status=status.HTTP_200_OK)
+
 
 #============================ RATINGS ===========================
 # create rating
@@ -253,3 +264,26 @@ class CommentListView(generics.ListAPIView):
         queryset = Comment.objects.filter(property_id=property_id)
         return queryset
 
+#============================ IMAGES ===========================
+def upload_image(request):
+    if request.method == 'POST':
+        form = ImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('image-list')  # Redirect to a page where you list all images
+    else:
+        form = ImageForm()
+    return render(request, 'upload_image.html', {'form': form})
+
+class ImageView(generics.ListAPIView):
+    def get(self, request, image_name):
+        try:
+            image_path = os.path.join(settings.MEDIA_ROOT, image_name)
+            with open(image_path, 'rb') as image_file:
+                content_type, encoding = mimetypes.guess_type(image_path)
+                content_type = content_type or 'application/octet-stream'
+                response = HttpResponse(image_file, content_type=content_type)
+                response['Content-Disposition'] = f'inline; filename="{image_name}"'
+                return response
+        except FileNotFoundError:
+            return HttpResponse('Image not found', status=404)

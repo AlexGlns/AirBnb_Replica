@@ -15,8 +15,13 @@ Including another URLconf
 """
 from django.urls import path
 from .views import *
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 urlpatterns = [
+    #======================= JWT =========================
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     #====================== USERS ========================
     # creates user
     path('users/create/', CustomUserCreateView.as_view(), name='user-create'),
@@ -74,4 +79,7 @@ urlpatterns = [
     path('properties/<int:property_id>/comments/', CommentListView.as_view(), name='property-comments-list'),
     # create a comment for a property
     path('properties/<int:property_id>/comments/create/', CommentCreateView.as_view(), name='property-comment-create'),
+
+    #======================= IMAGES ======================
+    path('upload/', upload_image, name='upload-image'),
 ]
