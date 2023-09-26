@@ -122,7 +122,7 @@ class AllUsersView(generics.ListAPIView):
     serializer_class = CustomUserSerializer
 
 @authentication_classes([JWTAuthentication]) 
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 class LoginView(generics.CreateAPIView):
     serializer_class = LoginSerializer
     

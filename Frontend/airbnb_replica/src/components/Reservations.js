@@ -12,7 +12,7 @@ function Reservations() {
   const searchReservations = async () => {
     try {
        axios
-        .get("https://127.0.0.1:8000/api/reservations/users/" + user.id)
+        .get("https://127.0.0.1:8000/api/reservations/users/" + user.user_id)
         .then((res) => {
           console.log(res.status, res.data);
           setReservations(res.data);

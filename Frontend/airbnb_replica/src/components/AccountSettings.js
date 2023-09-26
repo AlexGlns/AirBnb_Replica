@@ -15,12 +15,22 @@ function AccountSettings() {
                 <h5 className="card-title">Current Info</h5>
               </div>
               <ul className="list-group list-group-flush">
-                <li className="list-group-item">{"Username : " + user.username}</li>
-                <li className="list-group-item">{"First Name : " + user.first_name}</li>
-                <li className="list-group-item">{"Last Name : " + user.last_name}</li>
+                <li className="list-group-item">
+                  {"Username : " + user.username}
+                </li>
+                <li className="list-group-item">
+                  {"First Name : " + user.first_name}
+                </li>
+                <li className="list-group-item">
+                  {"Last Name : " + user.last_name}
+                </li>
                 <li className="list-group-item">{"Email : " + user.email}</li>
-                <li className="list-group-item">{"Phone Number : " + user.phone_number}</li>
-                <li className="list-group-item">{"User-Type : " + user.user_type}</li>
+                <li className="list-group-item">
+                  {"Phone Number : " + user.phone_number}
+                </li>
+                <li className="list-group-item">
+                  {"User-Type : " + user.user_type}
+                </li>
               </ul>
             </div>
             <div class="card mb-2">

@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import AuthContext from "../context/AuthContext";
 
 function MyLogIn() {
-  let {loginUser, response} = useContext(AuthContext);
+  let {user,loginUser, response} = useContext(AuthContext);
   return (
     <div className="container rounded bg-light mt-5 py-1">
       <h2>Log In</h2>
@@ -29,13 +29,21 @@ function MyLogIn() {
         </div>
 
 
-        <button type="submit" className="btn btn-primary m-2">
+        <button type="submit" disabled={isDesabledLogIn(user)} className="btn btn-primary m-2">
           Log in
         </button>
-        {statusMessages(response)}
+        {statusMessages(response.status)}
       </form>
     </div>
   );
+}
+
+function isDesabledLogIn(user) {
+  if (user.length !== 0) {
+    return true;
+  }
+
+  return false;
 }
 
 function statusMessages(status) {

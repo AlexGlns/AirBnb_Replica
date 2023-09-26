@@ -5,7 +5,6 @@ import AuthContext from "../context/AuthContext";
 import NavDropdown from "react-bootstrap/NavDropdown";
 
 function MyNavBar(props) {
-
   let { user, logoutUser } = useContext(AuthContext);
 
   return (
