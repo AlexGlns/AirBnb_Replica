@@ -17,6 +17,7 @@ class JWTAuthentication(authentication.BaseAuthentication):
         user = self.authenticate_token(token)
         return (user, None)
 
+    # need more
     def authenticate_token(self, token):
         try:
             payload = AccessToken(token)

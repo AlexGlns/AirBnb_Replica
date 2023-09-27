@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Property, Reservation, CustomUser, Rating, Comment
+from .models import Property, Reservation, CustomUser, Rating
 
 #============================ USERS =================================
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -38,10 +38,4 @@ class PropertySerializer(serializers.ModelSerializer):
 class ReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reservation
-        fields = '__all__'
-
-#============================= COMMENTS =================================
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
         fields = '__all__'

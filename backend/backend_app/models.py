@@ -96,24 +96,15 @@ class Reservation(models.Model):
         self.clean()
         super().save(*args, **kwargs)
 
-#============================ RATINGS =============================
+#======================= RATINGS & COMMENTS =======================
 class Rating(models.Model):
     property = models.ForeignKey('Property', on_delete=models.CASCADE, related_name='ratings')
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    rating = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
+    rating = models.FloatField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
+    comments = models.TextField(blank=True, null=True) 
 
     def __str__(self):
         return f"{self.user.username}'s rating for {self.property}"
-
-#============================ COMMENTS ==========================
-class Comment(models.Model):
-    property = models.ForeignKey('Property', on_delete=models.CASCADE, related_name='comments')
-    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
-    text = models.TextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Comment by {self.author} on {self.property}"
 
 #============================= IMAGES ==========================
 class Image(models.Model):
