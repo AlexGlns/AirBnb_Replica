@@ -24,7 +24,7 @@ function MyLogIn() {
             <label className="form-label" htmlFor="form3Example4c">
               Password
             </label>
-            <input type="password" name="Password" id="Password" class="form-control" />
+            <input type="password" name="Password" id="Password" className="form-control" />
           </div>
         </div>
 
@@ -47,7 +47,8 @@ function isDesabledLogIn(user) {
 }
 
 function statusMessages(status) {
-  if (status===""){
+  console.log(status);
+  if (status === "" || status === undefined){
     return;
   }
   if (status >= 400) {

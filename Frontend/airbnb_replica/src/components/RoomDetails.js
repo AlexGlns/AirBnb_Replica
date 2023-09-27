@@ -146,16 +146,21 @@ function RoomDetails() {
       <div className="container-sm  py-2">
         {lat !== 0 ? desplayMap(lat, lng, customIcon) : null}
 
-        <div class="d-grid gap-2 py-4">
-          <button class="btn btn-primary py-2" onClick={open} type="button">
+        <div className="d-grid gap-2 py-4">
+          <button
+            className="btn btn-primary py-2"
+            disabled={reservationIsDesabled(reservation_properties, user)}
+            onClick={open}
+            type="button"
+          >
             Κράτηση
           </button>
-
+          {reservationMessages(reservation_properties, user)}
           <div>
             {showDialog && (
               <>
                 <Alert variant="warning">
-                  <Alert.Heading>My Alert</Alert.Heading>
+                  <Alert.Heading>Reservation Alert</Alert.Heading>
                   <p>Are you sure you want to make this reseravation ?</p>
                   <hr />
                   <div className="d-flex justify-content">
@@ -182,9 +187,8 @@ function RoomDetails() {
                           setResponse(400);
                           console.log(e);
                         }
-                        close()
-                      }
-                    }
+                        close();
+                      }}
                     >
                       Yes
                     </Button>
@@ -247,12 +251,56 @@ function desplayMap(lat, lng, customIcon) {
   );
 }
 
+function reservationIsDesabled(reservation, user) {
+  console.log(reservation);
+  if (reservation.start_date === "" || reservation.end_date === "") {
+    return true;
+  }
+
+  if (user.length === 0) {
+    return true;
+  }
+
+  return false;
+}
+
+function reservationMessages(reservation, user) {
+  
+  if (user.length === 0) {
+    return (
+      <div>
+        <h4 className="text-info">Please log in to make a reservation!</h4>
+      </div>
+    );
+  }
+  
+  if (reservation.start_date === "" || reservation.end_date === "") {
+    return (
+      <div>
+        <h4 className="text-info">Please select departure date and return date to make a reservation!</h4>
+      </div>
+    );
+
+    return "";
+  }
+
+  if (user.length === 0) {
+    return true;
+  }
+
+  return false;
+}
+
 function statusMessages(status) {
   if (status === "") {
     return;
   }
   if (status >= 400) {
-    return <h5 className="text-danger">Something went wrong.</h5>;
+    return (
+      <h5 className="text-danger">
+        Sorry! There is already a reservation for these dates.
+      </h5>
+    );
   } else {
     return <h5 className="text-success">Reservation created !</h5>;
   }

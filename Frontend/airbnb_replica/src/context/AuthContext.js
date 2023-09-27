@@ -18,8 +18,7 @@ export const AuthProvider = ({ children }) => {
       ? JSON.parse(localStorage.getItem("logedIn"))
       : ""
   );
-  const [response, setResponse] = useState("");
-  let [username, setUsername] = useState("");
+  let [response, setResponse] = useState("");
 
   // const takeData = async (e) => {
   //   if (response === 200){
@@ -55,7 +54,6 @@ export const AuthProvider = ({ children }) => {
 
   let loginUser = async (e) => {
     e.preventDefault();
-    setUsername(e.target.Username.value);
     try {
       await axios
         .post(`https://127.0.0.1:8000/api/token/`, {
@@ -80,6 +78,7 @@ export const AuthProvider = ({ children }) => {
   let logoutUser = () => {
     setUser([]);
     setAuthTokens([]);
+    setResponse("");
     localStorage.removeItem("logedIn");
     window.location.reload(true);
   };

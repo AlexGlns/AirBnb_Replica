@@ -6,11 +6,11 @@ function AccountSettings() {
   return (
     <div className="container">
       <h2 className="mb-2 py-3">Change User Info</h2>
-      <div class="row">
-        <div class="col-xs-12 col-sm-9">
-          <form class="form-horizontal">
+      <div className="row">
+        <div className="col-xs-12 col-sm-9">
+          <form className="form-horizontal">
             <div className="card mb-3 ">
-              <img src="" class="card-img-top" alt="user-image" />
+              <img src="" className="card-img-top" alt="user-image" />
               <div className="card-body">
                 <h5 className="card-title">Current Info</h5>
               </div>
@@ -33,31 +33,31 @@ function AccountSettings() {
                 </li>
               </ul>
             </div>
-            <div class="card mb-2">
-              <div class="card-body">
-                <h4 class="card-title">User info</h4>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">Username</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" />
+            <div className="card mb-2">
+              <div className="card-body">
+                <h4 className="card-title">User info</h4>
+                <div className="form-group">
+                  <label className="col-sm-2 control-label">Username</label>
+                  <div className="col-sm-10">
+                    <input type="text" className="form-control" />
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="card mb-3">
-              <div class="card-body">
-                <h4 class="card-title">Contact info</h4>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">Phone number</label>
-                  <div class="col-sm-10">
-                    <input type="tel" class="form-control" />
+            <div className="card mb-3">
+              <div className="card-body">
+                <h4 className="card-title">Contact info</h4>
+                <div className="form-group">
+                  <label className="col-sm-2 control-label">Phone number</label>
+                  <div className="col-sm-10">
+                    <input type="tel" className="form-control" />
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-2 control-label">E-mail address</label>
-                  <div class="col-sm-10">
-                    <input type="email" class="form-control" />
+                <div className="form-group">
+                  <label className="col-sm-2 control-label">E-mail address</label>
+                  <div className="col-sm-10">
+                    <input type="email" className="form-control" />
                   </div>
                 </div>
               </div>
@@ -72,7 +72,7 @@ function AccountSettings() {
                     Current password
                   </label>
                   <div className="col-sm-10">
-                    <input type="password" class="form-control" />
+                    <input type="password" className="form-control" />
                   </div>
                 </div>
                 <div className="form-group">

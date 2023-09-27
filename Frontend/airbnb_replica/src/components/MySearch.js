@@ -43,7 +43,7 @@ function MySearch() {
 
   return (
     <div className="container py-2">
-      <form class="form-inline" onSubmit={handleSubmit}>
+      <form className="form-inline" onSubmit={handleSubmit}>
         <label htmlFor="inputCity" className="m-2 sr-only"></label>
         <input
           type="text"
