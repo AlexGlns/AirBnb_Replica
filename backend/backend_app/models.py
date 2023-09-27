@@ -19,7 +19,7 @@ class CustomUser(AbstractUser):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30) 
 
-    is_host = models.BooleanField(default=False)  # Indicates whether the user is a host
+    is_host = models.BooleanField(default=False)  
     is_approved = models.BooleanField(default=False)  # Indicates whether the host is approved by admin 
     
     def __str__(self):
