@@ -5,5 +5,5 @@ def custom_jwt_payload_handler(user):
     payload['id'] = user.id
     payload['username'] = user.username
     payload['user_type'] = user.user_type
-    # Add more fields as needed
+
     return payload

@@ -21,7 +21,7 @@ class JWTAuthentication(authentication.BaseAuthentication):
     def authenticate_token(self, token):
         try:
             payload = AccessToken(token)
-            user = get_user_model().objects.get(id=payload['user_id'])
+            user = get_user_model().objects.get(id=payload['user_id'], username=payload['username'],payload=payload['user_type'])
             if not user.is_active:
                 raise AuthenticationFailed('User is inactive.')
             return user
