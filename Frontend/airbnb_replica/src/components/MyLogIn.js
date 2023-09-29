@@ -3,6 +3,7 @@ import AuthContext from "../context/AuthContext";
 
 function MyLogIn() {
   let {user,loginUser, response} = useContext(AuthContext);
+  console.log(user);
   return (
     <div className="container rounded bg-light mt-5 py-1">
       <h2>Log In</h2>
