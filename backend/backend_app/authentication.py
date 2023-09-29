@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import authentication
 from rest_framework.exceptions import AuthenticationFailed
-from rest_framework_simplejwt.tokens import AccessToken
+from djangorestframework-simplejwt.tokens import AccessToken
 
 # jwt authentication class
 class JWTAuthentication(authentication.BaseAuthentication):
@@ -17,6 +17,7 @@ class JWTAuthentication(authentication.BaseAuthentication):
         user = self.authenticate_token(token)
         return (user, None)
 
+    # need more
     def authenticate_token(self, token):
         try:
             payload = AccessToken(token)

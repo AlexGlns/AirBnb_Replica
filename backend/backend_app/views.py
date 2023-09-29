@@ -1,8 +1,8 @@
 from django.shortcuts import render
 from rest_framework.permissions import AllowAny
 from rest_framework import generics
-from .models import Property, Reservation, CustomUser, Rating, Comment
-from .serializers import CommentSerializer, RatingSerializer, LoginSerializer, PropertySerializer, ReservationSerializer, CustomUserSerializer, PropertyShortInfoSerializer
+from .models import Property, Reservation, CustomUser, Rating
+from .serializers import RatingSerializer, LoginSerializer, PropertySerializer, ReservationSerializer, CustomUserSerializer, PropertyShortInfoSerializer
 from rest_framework.response import Response
 from datetime import datetime
 from django.http import JsonResponse
@@ -122,7 +122,6 @@ class AllUsersView(generics.ListAPIView):
     serializer_class = CustomUserSerializer
 
 @authentication_classes([JWTAuthentication]) 
-# @permission_classes([IsAuthenticated])
 class LoginView(generics.CreateAPIView):
     serializer_class = LoginSerializer
     
@@ -251,19 +250,6 @@ class RoomLocationDateBedsView(generics.ListAPIView):
         }
         return Response(response_data)
 
-#=========================== COMMENTS ============================
-
-class CommentCreateView(generics.CreateAPIView):
-    serializer_class = CommentSerializer
-
-class CommentListView(generics.ListAPIView):
-    serializer_class = CommentSerializer
-
-    def get_queryset(self):
-        property_id = self.kwargs['property_id']
-        queryset = Comment.objects.filter(property_id=property_id)
-        return queryset
-
 #============================ IMAGES ===========================
 def upload_image(request):
     if request.method == 'POST':
@@ -287,3 +273,12 @@ class ImageView(generics.ListAPIView):
                 return response
         except FileNotFoundError:
             return HttpResponse('Image not found', status=404)
+
+#=========================== UPDATES ===========================
+# change username
+class ChangeUsername(generics.UpdateAPIView):
+    serializer_class = CustomUserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user

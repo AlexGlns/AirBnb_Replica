@@ -19,8 +19,11 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 urlpatterns = [
     #======================= JWT =========================
+    # obtain token pair
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # refresh token
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    # verify token
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),
     #====================== USERS ========================
     # creates user
@@ -74,12 +77,9 @@ urlpatterns = [
     # get all ratings for a specific property
     path('ratings/<int:property_id>/list/', PropertyRatingsListView.as_view(), name='ratings-for-property'),
 
-    #======================= COMMENTS ======================
-    # list comments from a property id
-    path('properties/<int:property_id>/comments/', CommentListView.as_view(), name='property-comments-list'),
-    # create a comment for a property
-    path('properties/<int:property_id>/comments/create/', CommentCreateView.as_view(), name='property-comment-create'),
-
     #======================= IMAGES ======================
     path('upload/', upload_image, name='upload-image'),
+
+    #===================== UPDATES =======================
+    path('change-username/', ChangeUsername.as_view(), name='change-username'),
 ]
