@@ -20,23 +20,6 @@ export const AuthProvider = ({ children }) => {
   );
   let [response, setResponse] = useState("");
 
-  // const takeData = async (e) => {
-  //   if (response === 200){
-  //   try {
-  //     await axios
-  //       .get(`https://127.0.0.1:8000/api/users/search/` + username)
-  //       .then((res) => {
-  //         setResponse(201);
-  //         console.log(res.status, res.data);
-  //         setUser(res.data);
-  //       });
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // }
-
-  // };
-
   useEffect(() => {
     if (response.status === 200) {
       setAuthTokens(response.data);
@@ -45,13 +28,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, [response]);
 
-  // useEffect(() => {
-  //   if (user.length !== 0) {
-  //     //console.log(user);
-  //     localStorage.setItem("logedIn", JSON.stringify(user));
-  //   }
-  // }, [user]);
-
+ 
   let loginUser = async (e) => {
     e.preventDefault();
     try {
